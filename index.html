@@ -113,7 +113,7 @@
                         vars: [{name: 'err', coef: 1.0}]
                     },
                     subjectTo: subjectTo,
-                    bounds: [{name: 'err', type: 1}, Array.from(i2v, ([k, v]) => { return {name: `var_${k}`, type: 1}; })].flat()
+                    bounds: [{name: 'err', type: glpk.GLP_FR}, Array.from(i2v, ([k, v]) => { return {name: `var_${k}`, type: 1}; })].flat()
                 };
 
                 console.log(lp);
@@ -140,7 +140,7 @@
                             ? res.result.vars[a].toFixed(6)
                             : res.result.vars[a].toFixed(2));
                           // let row = `<tr><th scope="row">${k}</th><td>\\(${v}\\)</td><td>${r}</td></tr>`;
-                          let row = `<tr><th scope="row">${k}</th><td>${v}</td><td>${r}</td></tr>`;
+                          let row = `<tr><th scope="row">${a}</th><td>${v}</td><td>${r}</td></tr>`;
                           return $(row);
                         }));
 

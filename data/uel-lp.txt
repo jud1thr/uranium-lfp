@@ -1,0 +1,271 @@
+# Linear program to compute variables given a minimum error
+
+# variables
+
+var a;	# Cp
+var b;	# Cl
+var c;	# SPh
+var d;	# BH4
+var e;	# SiPr
+var f;	# OiPr
+var g;	# tmp
+var h;	# tBuCp
+var i;	# Cp*
+var j;	# NEt2
+var k;	# Me
+var l;	# Oet
+var m;	# TMSCp
+var n;	# MeCp
+var o;	# n2NN'tetrazolate
+var p;	# SO3CF3
+var q;	# CH2Ph
+var r;	# CPiPr4
+var s;	# I
+var t;	# Br
+var u;	# N3
+var v;	# NCO
+var w;	# F
+var x;	# PN
+var y;	# PNP
+var z;	# bipy-
+var aa;	# fc(NSi(tBu)Me2)2
+var bb;	# COT
+var cc;	# N(SiMe)2
+# var dd;	# NPh2
+# var ee;	# C=CPh
+var ff;	# n2(N,N')-CH3NN=CPh2
+var gg;	# n2(N,N')-CH2PhNN=CPh2
+# var hh;	# C5Me4Et
+# var ii;	# -N=C(CH3)(-C6H4-C=N)
+var jj;	# -N=C(CH2C6J5)(tpy)
+var kk;	# -N=C(Ph)(Ph)
+var ll;	# -N=C(Ph)(CH2Ph)
+var mm;	# -N=C(Ph)(CH3)
+var nn;	# -N=C(CH3)(C6F5)
+var oo;	# -N=C(CH3)(3,5-F2-C6H3)
+var pp;	# –N=C(CH3)(3,4,5-F3-C6H2)
+var qq;	# –N=C(CH3)(3-F-C6H4)
+var rr;	# –N=C(CH3)(2-F-C6H4)
+var ss;	# –N=C(CH3)(4-F-C6H4)
+var tt;	# –N=C(CH3)(2,4,6-F3-C6H2)
+var uu;	# –N=C(CH3)(2,6-F2-C6H3)
+# var vv;	# =N–2,6-iPr2–C6H3
+# var ww;	# THF
+# var xx;	# =N–2,4,6-tBu3–C6H2
+
+
+# this is the added error term to make the infeasible system of linear equations
+# a feasible set of inequations
+var maxError;
+
+
+# for multiple measurements use max on the upper, min on the lower bound
+s.t. Eq1_2_3_down: 3 * a + b >= -1.88 - maxError;
+s.t. Eq1_2_3_up: 3 * a + b <= -1.80 + maxError;
+
+s.t. Eq4_down: 3 * a + c >= -1.90 -maxError;
+s.t. Eq4_up: 3 * a + c<= -1.90 +maxError;
+
+#s.t. Eq5_6a_down: 3 * a + d <= -1.92 -maxError;
+#s.t. Eq5_6a_up: 3 * a + d <= -1.92 +maxError;
+#s.t. Eq5_6b_down: 3 * a + d >= -2.00 -maxError;
+#s.t. Eq5_6b_up: 3 * a + d >= -2.00 +maxError;
+
+s.t. Eq7_down: 4 * a >= -1.94 -maxError;
+s.t. Eq7_up: 4 * a<= -1.94 +maxError;
+s.t. Eq8_down: 3 * a + e >= -2.03 -maxError;
+s.t. Eq8_up: 3 * a + e<= -2.03 +maxError;
+s.t. Eq9_down: 3 * a + f >= -2.39 -maxError;
+s.t. Eq9_up: 3 * a + f<= -2.39 +maxError;
+
+s.t. Eq10_down: 2 * g + 2 * d >= -1.50 -maxError;
+s.t. Eq10_up: 2 * g + 2 * d<= -1.50 +maxError;
+s.t. Eq12_down: 2 * a + 2 * d >= -1.62 -maxError;
+s.t. Eq12_up: 2 * a + 2 * d<= -1.62 +maxError;
+s.t. Eq13_down: 2 * h + 2 * d >= -1.63 -maxError;
+s.t. Eq13_up: 2 * h + 2 * d<= -1.63 +maxError;
+s.t. Eq14_down: i + g + 2 * d >= -1.66 -maxError;
+s.t. Eq14_up: i + g + 2 * d<= -1.66 +maxError;
+s.t. Eq15_down: 2 * i + 2 * d >= -1.83 -maxError;
+s.t. Eq15_up: 2 * i + 2 * d<= -1.83 +maxError;
+
+s.t. Eq16_17b_down: 2 * i + 2 * b >= -2.18 -maxError;
+s.t. Eq16_17a_up: 2 * i + 2 * b <= -1.85 +maxError;
+
+s.t. Eq18_down: 2 * i + j + b >= -2.38 -maxError;
+s.t. Eq18_up: 2 * i + j + b<= -2.38 +maxError;
+s.t. Eq19_down: i + 3 * j >= -3.05 -maxError;
+s.t. Eq19_up: i + 3 * j<= -3.05 +maxError;
+
+s.t. Eq20_21b_down: 2 * i + 2 * k >= -2.52 -maxError;
+s.t. Eq20_21a_up: 2 * i + 2 * k <= -2.41 +maxError;
+
+s.t. Eq22_down: 2 * i + 2 * l >= -2.83 -maxError;
+s.t. Eq22_up: 2 * i + 2 * l <= -2.83 +maxError;
+s.t. Eq23_down: 3 * g + b >= -1.61 -maxError;
+s.t. Eq23_up: 3 * g + b <= -1.61 +maxError;
+s.t. Eq24_down: 3 * m + b >= -1.83 -maxError;
+s.t. Eq24_up: 3 * m + b <= -1.83 +maxError;
+s.t. Eq25_down: 3 * h + b >= -1.93 -maxError;
+s.t. Eq25_up: 3 * h + b <= -1.93 +maxError;
+s.t. Eq26_down: 3 * n + b >= -1.95 -maxError;
+s.t. Eq26_up: 3 * n + b <= -1.95 +maxError;
+s.t. Eq27_down: 2 * i + 2 * o >= -1.76 -maxError;
+s.t. Eq27_up: 2 * i + 2 * o <= -1.76 +maxError;
+s.t. Eq28_down: 2 * i + k + p >= -1.83 -maxError;
+s.t. Eq28_up: 2 * i + k + p <= -1.83 +maxError;
+s.t. Eq29_down: 2 * i + 2 * q >= -1.95 -maxError;
+s.t. Eq29_up: 2 * i + 2 * q <= -1.95 +maxError;
+
+#s.t. Eq30_down: i + 3 * q >= -2.00 -maxError;
+#s.t. Eq30_up: i + 3 * q<= -2.00 +maxError;
+
+s.t. Eq31_down: 2 * r + 2 * s >= -1.41 -maxError;
+s.t. Eq31_up: 2 * r + 2 * s<= -1.41 +maxError;
+s.t. Eq33_down: 2 * r + 2 * t >= -1.57 -maxError;
+s.t. Eq33_up: 2 * r + 2 * t<= -1.57 +maxError;
+s.t. Eq34_down: 2 * r + 2 * b >= -1.70 -maxError;
+s.t. Eq34_up: 2 * r + 2 * b<= -1.70 +maxError;
+s.t. Eq35_down: 2 * r + 2 * u >= -1.81 -maxError;
+s.t. Eq35_up: 2 * r + 2 * u<= -1.81 +maxError;
+
+#s.t. Eq36_down: 2 * r + 2 * v >= -1.91 -maxError;
+#s.t. Eq36_up: 2 * r + 2 * v<= -1.91 +maxError;
+
+s.t. Eq37_down: 2 * r + 2 * w >= -2.23 -maxError;
+s.t. Eq37_up: 2 * r + 2 * w<= -2.23 +maxError;
+s.t. Eq38_down: 2 * x + 2 * b >= -2.09 -maxError;
+s.t. Eq38_up: 2 * x + 2 * b<= -2.09 +maxError;
+s.t. Eq39_down: 2 * y + 2 * b >= -2.19 -maxError;
+s.t. Eq39_up: 2 * y + 2 * b<= -2.19 +maxError;
+
+s.t. Eq40_down: 4 * z >= -2.20 -maxError;
+s.t. Eq40_up: 4 * z<= -2.20 +maxError;
+s.t. Eq41_down: 2 * aa >= -2.54 -maxError;
+s.t. Eq41_up: 2 * aa<= -2.54 +maxError;
+s.t. Eq42_down: bb + 2 * cc >= -2.33 -maxError;
+s.t. Eq42_up: bb + 2 * cc<= -2.33 +maxError;
+s.t. Eq43_down: 2 * i + cc + t >= -1.97 -maxError;
+s.t. Eq43_up: 2 * i + cc + t<= -1.97 +maxError;
+s.t. Eq44_down: 2 * i + cc + b >= -2.04 -maxError;
+s.t. Eq44_up: 2 * i + cc + b<= -2.04 +maxError;
+s.t. Eq45_down: 2 * i + cc + v >= -2.06 -maxError;
+s.t. Eq45_up: 2 * i + cc + v<= -2.06 +maxError;
+s.t. Eq46_down: 2 * i + cc + u >= -2.15 -maxError;
+s.t. Eq46_up: 2 * i + cc + u<= -2.15 +maxError;
+
+# -2.327 may be a measurement/reading error?
+#s.t. Eq47_down: 2 * i + cc + w >= -2.327 -maxError;
+#s.t. Eq47_up: 2 * i + cc + w <= -2.327 +maxError;
+s.t. Eq47_down: 2 * i + cc + w >= -2.35 -maxError;
+s.t. Eq47_up: 2 * i + cc + w <= -2.35 +maxError;
+
+#s.t. Eq48_down: 2 * i + dd + ee >= -2.25 -maxError;
+#s.t. Eq48_up: 2 * i + dd + ee <= -2.25 +maxError;
+s.t. Eq49_down: 2 * i + p + ff >= -2.01 -maxError;
+s.t. Eq49_up: 2 * i + p + ff <= -2.01 +maxError;
+
+
+s.t. Eq50_down: 2 * i + b + ff >= -2.29 -maxError;
+s.t. Eq50_up: 2 * i + b + ff<= -2.29 +maxError;
+s.t. Eq51_down: 2 * i + 2 * gg >= -2.56 -maxError;
+s.t. Eq51_up: 2 * i + 2 * gg<= -2.56 +maxError;
+s.t. Eq52_down: 2 * i + 2 * ff >= -2.78 -maxError;
+s.t. Eq52_up: 2 * i + 2 * ff<= -2.78 +maxError;
+
+#s.t. Eq53_down: 2 * hh + 2 * ii >= -2.31 -maxError;
+#s.t. Eq53_up: 2 * hh + 2 * ii<= -2.31 +maxError;
+
+s.t. Eq54_down: 2 * i + 2 * jj >= -2.42 -maxError;
+s.t. Eq54_up: 2 * i + 2 * jj<= -2.42 +maxError;
+s.t. Eq55_down: 2 * i + 2 * kk >= -2.51 -maxError;
+s.t. Eq55_up: 2 * i + 2 * kk<= -2.51 +maxError;
+s.t. Eq56_down: 2 * i + 2 * ll >= -2.57 -maxError;
+s.t. Eq56_up: 2 * i + 2 * ll<= -2.57 +maxError;
+s.t. Eq57_down: 2 * i + 2 * mm >= -2.68 -maxError;
+s.t. Eq57_up: 2 * i + 2 * mm<= -2.68 +maxError;
+s.t. Eq58_down: 2 * i + 2 * nn >= -2.34 -maxError;
+s.t. Eq58_up: 2 * i + 2 * nn<= -2.34 +maxError;
+s.t. Eq59_down: 2 * i + 2 * oo >= -2.46 -maxError;
+s.t. Eq59_up: 2 * i + 2 * oo<= -2.46 +maxError;
+
+s.t. Eq60_down: 2 * i + 2 * pp >= -2.48 -maxError;
+s.t. Eq60_up: 2 * i + 2 * pp<= -2.48 +maxError;
+s.t. Eq61_down: 2 * i + 2 * qq >= -2.54 -maxError;
+s.t. Eq61_up: 2 * i + 2 * qq<= -2.54 +maxError;
+s.t. Eq62_down: 2 * i + 2 * rr >= -2.62 -maxError;
+s.t. Eq62_up: 2 * i + 2 * rr<= -2.62 +maxError;
+s.t. Eq63_down: 2 * i + 2 * ss >= -2.64 -maxError;
+s.t. Eq63_up: 2 * i + 2 * ss<= -2.64 +maxError;
+s.t. Eq64_down: 2 * i + 2 * tt >= -2.80 -maxError;
+s.t. Eq64_up: 2 * i + 2 * tt<= -2.80 +maxError;
+s.t. Eq65_down: 2 * i + 2 * uu >= -2.82 -maxError;
+s.t. Eq65_up: 2 * i + 2 * uu<= -2.82 +maxError;
+
+#s.t. Eq66_down: 2 * i + vv + xx >= -2.40 -maxError;
+#s.t. Eq66_up: 2 * i + vv + xx<= -2.40 +maxError;
+#s.t. Eq67_down: 2 * i + ww + xx >= -2.61 -maxError;
+#s.t. Eq67_up: 2 * i + ww + xx<= -2.61 +maxError;
+
+
+# actual job to do...
+minimize maxOfAllErrors: maxError;
+
+solve;
+
+# print result
+printf "%s\t%g\n", 'a', a;	# Cp
+printf "%s\t%g\n", 'b', b;	# Cl
+printf "%s\t%g\n", 'c', c;	# SPh
+printf "%s\t%g\n", 'd', d;	# BH4
+printf "%s\t%g\n", 'e', e;	# SiPr
+printf "%s\t%g\n", 'f', f;	# OiPr
+printf "%s\t%g\n", 'g', g;	# tmp
+printf "%s\t%g\n", 'h', h;	# tBuCp
+printf "%s\t%g\n", 'i', i;	# Cp*
+printf "%s\t%g\n", 'j', j;	# NEt2
+printf "%s\t%g\n", 'k', k;	# Me
+printf "%s\t%g\n", 'l', l;	# Oet
+printf "%s\t%g\n", 'm', m;	# TMSCp
+printf "%s\t%g\n", 'n', n;	# MeCp
+printf "%s\t%g\n", 'o', o;	# nu2NN'tetrazolate
+printf "%s\t%g\n", 'p', p;	# SO3CF3
+printf "%s\t%g\n", 'q', q;	# CH2Ph
+printf "%s\t%g\n", 'r', r;	# CPiPr4
+printf "%s\t%g\n", 's', s;	# I
+printf "%s\t%g\n", 't', t;	# Br
+printf "%s\t%g\n", 'u', u;	# N3
+printf "%s\t%g\n", 'v', v;	# NCO
+printf "%s\t%g\n", 'w', w;	# F
+printf "%s\t%g\n", 'x', x;	# PN
+printf "%s\t%g\n", 'y', y;	# PNP
+printf "%s\t%g\n", 'z', z;	# bipy-
+
+printf "%s\t%g\n", 'aa', aa;	# fc(NSi(tBu)Me2)2
+printf "%s\t%g\n", 'bb', bb;	# Cp
+printf "%s\t%g\n", 'cc', cc;	# SPh
+# printf "%s\t%g\n", 'dd', dd;	# BH4
+# printf "%s\t%g\n", 'ee', ee;	# SiPr
+printf "%s\t%g\n", 'ff', ff;	# OiPr
+printf "%s\t%g\n", 'gg', gg;	# tmp
+# printf "%s\t%g\n", 'hh', hh;	# tBuCp
+# printf "%s\t%g\n", 'ii', ii;	# Cp*
+printf "%s\t%g\n", 'jj', jj;	# NEt2
+printf "%s\t%g\n", 'kk', kk;	# Me
+printf "%s\t%g\n", 'll', ll;	# Oet
+printf "%s\t%g\n", 'mm', mm;	# TMSCp
+printf "%s\t%g\n", 'nn', nn;	# MeCp
+printf "%s\t%g\n", 'oo', oo;	# n2NN'tetrazolate
+printf "%s\t%g\n", 'pp', pp;	# SO3CF3
+printf "%s\t%g\n", 'qq', qq;	# CH2Ph
+printf "%s\t%g\n", 'rr', rr;	# CPiPr4
+printf "%s\t%g\n", 'ss', ss;	# I
+printf "%s\t%g\n", 'tt', tt;	# Br
+printf "%s\t%g\n", 'uu', uu;	# N3
+# printf "%s\t%g\n", 'vv', vv;	# NCO
+# printf "%s\t%g\n", 'ww', ww;	# F
+# printf "%s\t%g\n", 'xx', xx;	# PN
+
+printf "%s\t%g\n", 'maxError', maxError;
+
+end;
