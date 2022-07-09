@@ -2,161 +2,161 @@
 <html>
 
 <head>
-		<title></title>
-		<meta content="">
-		<style></style>
-		<link href="../dist/bootstrap.min.css" rel="stylesheet">
-		<script type="text/javascript" async src="../dist/tex-mml-chtml.js"></script>
+    <title></title>
+    <meta content="">
+    <style></style>
+    <link href="./dist/bootstrap.min.css" rel="stylesheet">
+    <script type="text/javascript" async src="./dist/tex-mml-chtml.js"></script>
 </head>
 
 <body>
-		<main role="main" class="container">
-		<h1>Global Optimization of Lever Parameters</h1>
-		<table class="table">
-			<thead>
-				<tr>
-					<th scope="col">Variable</th>
-					<th scope="col">Component</th>
-					<th scope="col">Value</th>
-				</tr>
-			</thead>
-			<tbody id="results">
-				
-			</tbody>
-		</table>
+    <main role="main" class="container">
+    <h1>Global Optimization of Lever Parameters</h1>
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Variable</th>
+          <th scope="col">Component</th>
+          <th scope="col">Value</th>
+        </tr>
+      </thead>
+      <tbody id="results">
+        
+      </tbody>
+    </table>
 
 <pre>
 {"lig": "[(Cp*) U (NEt_2)_3]", "eqn": {"Cp*": 1, "MEt_2": 3, "uel": -3.05}}
 {"lig": "[(Cp*)_2 U (Me)_2]", "eqn": {"Cp*": 2, "Me": 2, "uel": [-2.52, -2.41]}}
 </pre>
 
-		<pre id='out'></pre>
-		<pre id='cplex'></pre>
+    <pre id='out'></pre>
+    <pre id='cplex'></pre>
 
-		</main>
+    </main>
 
-		<script src="../dist/jquery-3.6.0.min.js"></script>
-		<script src="../dist/bootstrap.bundle.min.js"></script>
-		<script type="module">
-				import GLPK from '../dist/glpk.js';
-						(async () => {
-								const glpk = await GLPK();
+    <script src="./dist/jquery-3.6.0.min.js"></script>
+    <script src="./dist/bootstrap.bundle.min.js"></script>
+    <script type="module">
+        import GLPK from './dist/glpk.js';
+            (async () => {
+                const glpk = await GLPK();
 
-								// load the database
-								var jsonl = await fetch('../data/uel-data.jsonl');
-								jsonl = await jsonl.text();
-								
-								// read all constraints
-								var uels = jsonl.split(/\n/)
-																		.map(s => JSON.parse(s))
-																		.filter(o => o.hasOwnProperty('lig'))
-																		.filter(o => !o.hasOwnProperty('ignore'));
+                // load the database
+                var jsonl = await fetch('./data/uel-data.jsonl');
+                jsonl = await jsonl.text();
+                
+                // read all constraints
+                var uels = jsonl.split(/\n/)
+                                    .map(s => JSON.parse(s))
+                                    .filter(o => o.hasOwnProperty('lig'))
+                                    .filter(o => !o.hasOwnProperty('ignore'));
 
 
-								// build alias table for constraints (ligands) and variables (components)
-								const c2i = new Map();
-								const i2c = new Map();
-								const v2i = new Map();
-								const i2v = new Map();
+                // build alias table for constraints (ligands) and variables (components)
+                const c2i = new Map();
+                const i2c = new Map();
+                const v2i = new Map();
+                const i2v = new Map();
 
-								v2i.set('err', 0);
-								i2v.set(0, 'err');
+                v2i.set('err', 0);
+                i2v.set(0, 'err');
 
-								var cc = 1;
-								var vc = 1;
-								for (const uel of uels) {
-										if (c2i.has(uel.lig))
-												console.warn(`Duplicated constraint/ligand ${uel.lig}`);
+                var cc = 1;
+                var vc = 1;
+                for (const uel of uels) {
+                    if (c2i.has(uel.lig))
+                        console.warn(`Duplicated constraint/ligand ${uel.lig}`);
 
-										// add constraint (ligand)
-										c2i.set(uel.lig, cc);
-										i2c.set(cc, uel.lig);
-										cc = cc + 1;
+                    // add constraint (ligand)
+                    c2i.set(uel.lig, cc);
+                    i2c.set(cc, uel.lig);
+                    cc = cc + 1;
 
-										// add variables (components), if not present
-										for (const k of Object.keys(uel.eqn)) {
-												if (k === 'uel' || v2i.has(k)) continue;
-												v2i.set(k, vc);
-												i2v.set(vc, k);
-												vc = vc + 1;
-										}
-								}
+                    // add variables (components), if not present
+                    for (const k of Object.keys(uel.eqn)) {
+                        if (k === 'uel' || v2i.has(k)) continue;
+                        v2i.set(k, vc);
+                        i2v.set(vc, k);
+                        vc = vc + 1;
+                    }
+                }
 
-								// build the constraints
-								const subjectTo = uels.flatMap((o, i) => {
-										let constr = Object.entries(o.eqn)
-																						.filter(([k, v]) => k !== 'uel')
-																						.map(([k, v]) => { return {name: `var_${v2i.get(k)}`, coef: v}; });
-										let uel = o.eqn.uel;
+                // build the constraints
+                const subjectTo = uels.flatMap((o, i) => {
+                    let constr = Object.entries(o.eqn)
+                                          .filter(([k, v]) => k !== 'uel')
+                                          .map(([k, v]) => { return {name: `var_${v2i.get(k)}`, coef: v}; });
+                    let uel = o.eqn.uel;
 
-										return [{
-												name: `${i}_${c2i.get(o.lig)}_lo`,
-												vars: [constr, {name: 'err', coef: 1.0}].flat(),
-												bnds: {type: glpk.GLP_LO, ub: 0.0, lb: Array.isArray(uel) ? Math.min(...uel) : uel}
-										}, {
-												name: `${i}_${c2i.get(o.lig)}_up`,
-												vars: [constr, {name: 'err', coef: -1.0}].flat(),
-												bnds: { type: glpk.GLP_UP, ub: Array.isArray(uel) ? Math.max(...uel) : uel, lb: 0.0}
-										}];
-								});
+                    return [{
+                        name: `${i}_${c2i.get(o.lig)}_lo`,
+                        vars: [constr, {name: 'err', coef: 1.0}].flat(),
+                        bnds: {type: glpk.GLP_LO, ub: 0.0, lb: Array.isArray(uel) ? Math.min(...uel) : uel}
+                    }, {
+                        name: `${i}_${c2i.get(o.lig)}_up`,
+                        vars: [constr, {name: 'err', coef: -1.0}].flat(),
+                        bnds: { type: glpk.GLP_UP, ub: Array.isArray(uel) ? Math.max(...uel) : uel, lb: 0.0}
+                    }];
+                });
 
-								function print(res) {
-										const el = window.document.getElementById('out');
-										el.innerHTML = JSON.stringify(res, null, 2);
-								};
+                function print(res) {
+                    const el = window.document.getElementById('out');
+                    el.innerHTML = JSON.stringify(res, null, 2);
+                };
 
-								const lp = {
-										name: 'LP',
-										objective: {
-												direction: glpk.GLP_MIN,
-												name: 'obj',
-												vars: [{name: 'err', coef: 1.0}]
-										},
-										subjectTo: subjectTo,
-										bounds: [{name: 'err', type: 1}, Array.from(i2v, ([k, v]) => { return {name: `var_${k}`, type: 1}; })].flat()
-								};
+                const lp = {
+                    name: 'LP',
+                    objective: {
+                        direction: glpk.GLP_MIN,
+                        name: 'obj',
+                        vars: [{name: 'err', coef: 1.0}]
+                    },
+                    subjectTo: subjectTo,
+                    bounds: [{name: 'err', type: 1}, Array.from(i2v, ([k, v]) => { return {name: `var_${k}`, type: 1}; })].flat()
+                };
 
-								console.log(lp);
+                console.log(lp);
 
-								const opt = {
-										msglev: glpk.GLP_MSG_ALL,
-										presol: true,
-										cb: {
-												call: res => print(res),
-												each: 1
-										}
-								};
+                const opt = {
+                    msglev: glpk.GLP_MSG_ALL,
+                    presol: true,
+                    cb: {
+                        call: res => print(res),
+                        each: 1
+                    }
+                };
 
-								// run the optimization
-								glpk.solve(lp, opt)
-											.then(res => {
-												var tab = $('#results');
+                // run the optimization
+                glpk.solve(lp, opt)
+                      .then(res => {
+                        var tab = $('#results');
 
-												tab.append(Array.from(i2v, ([k, v]) => {
-													let a = (k == 0
-														? 'err'
-														: `var_${k}`);
-													var r = (k == 0 
-														? res.result.vars[a].toFixed(6)
-														: res.result.vars[a].toFixed(2));
-													// let row = `<tr><th scope="row">${k}</th><td>\\(${v}\\)</td><td>${r}</td></tr>`;
-													let row = `<tr><th scope="row">${k}</th><td>${v}</td><td>${r}</td></tr>`;
-													return $(row);
-												}));
+                        tab.append(Array.from(i2v, ([k, v]) => {
+                          let a = (k == 0
+                            ? 'err'
+                            : `var_${k}`);
+                          var r = (k == 0 
+                            ? res.result.vars[a].toFixed(6)
+                            : res.result.vars[a].toFixed(2));
+                          // let row = `<tr><th scope="row">${k}</th><td>\\(${v}\\)</td><td>${r}</td></tr>`;
+                          let row = `<tr><th scope="row">${k}</th><td>${v}</td><td>${r}</td></tr>`;
+                          return $(row);
+                        }));
 
-												// MathJax.typeset();
+                        // MathJax.typeset();
 
-												glpk.write(lp).then(res => {
-													window.document.getElementById('cplex').innerHTML = res;
-												});
-											})
-											.catch(err => console.log(err));
+                        glpk.write(lp).then(res => {
+                          window.document.getElementById('cplex').innerHTML = res;
+                        });
+                      })
+                      .catch(err => console.log(err));
 
-								// console.log(await glpk.solve(lp, glpk.GLP_MSG_DBG));
-								// window.document.getElementById('cplex').innerHTML = await glpk.write(lp);
+                // console.log(await glpk.solve(lp, glpk.GLP_MSG_DBG));
+                // window.document.getElementById('cplex').innerHTML = await glpk.write(lp);
 
-						})();
-				</script>
+            })();
+        </script>
 </body>
 
 </html>
