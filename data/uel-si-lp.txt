@@ -1,0 +1,48 @@
+# Linear program to compute variables given a minimum error
+
+# variables
+
+var a;	# Cp
+var b;	# Cl
+var d;	# BH4
+var i;	# Cp*
+
+
+# this is the added error term to make the infeasible system of linear equations
+# a feasible set of inequations
+var err;
+
+
+# for multiple measurements use max on the upper, min on the lower bound
+
+
+s.t. eq1_lb: 4 * a >= -1.94 -err;
+s.t. eq1_ub: 4 * a<= -1.94 +err;
+
+s.t. eq2_lb: 3 * a + b >= -1.87 - err;
+s.t. eq2_ub: 3 * a + b <= -1.87 + err;
+
+s.t. eq3_lb: 2 * a + 2 * d >= -1.62 - err;
+s.t. eq3_ub: 2 * a + 2 * d <= -1.62 + err;
+
+s.t. eq4_lb: 2 * i + 2 * d >= -1.83 - err;
+s.t. eq4_ub: 2 * i + 2 * d <= -1.83 + err;
+
+s.t. eq5_lb: 2 * i + 2 * b >= -1.85 - err;
+s.t. eq5_ub: 2 * i + 2 * b <= -1.85 + err;
+
+
+# actual job to do...
+minimize maxOfAllErrors: err;
+
+solve;
+
+# print result
+printf "%s\t%g\n", 'Cp', a;	# Cp
+printf "%s\t%g\n", 'Cl', b;	# Cl
+printf "%s\t%g\n", 'BH4', d;	# BH4
+printf "%s\t%g\n", 'Cp*', i;	# Cp*
+
+printf "%s\t%g\n", 'err', err;
+
+end;
