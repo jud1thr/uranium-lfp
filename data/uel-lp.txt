@@ -153,29 +153,20 @@ s.t. Eq45_down: 2 * i + cc + v >= -2.06 -maxError;
 s.t. Eq45_up: 2 * i + cc + v<= -2.06 +maxError;
 s.t. Eq46_down: 2 * i + cc + u >= -2.15 -maxError;
 s.t. Eq46_up: 2 * i + cc + u<= -2.15 +maxError;
-
-# -2.327 may be a measurement/reading error?
-#s.t. Eq47_down: 2 * i + cc + w >= -2.327 -maxError;
-#s.t. Eq47_up: 2 * i + cc + w <= -2.327 +maxError;
 s.t. Eq47_down: 2 * i + cc + w >= -2.35 -maxError;
 s.t. Eq47_up: 2 * i + cc + w <= -2.35 +maxError;
-
 #s.t. Eq48_down: 2 * i + dd + ee >= -2.25 -maxError;
 #s.t. Eq48_up: 2 * i + dd + ee <= -2.25 +maxError;
 s.t. Eq49_down: 2 * i + p + ff >= -2.01 -maxError;
 s.t. Eq49_up: 2 * i + p + ff <= -2.01 +maxError;
-
-
 s.t. Eq50_down: 2 * i + b + ff >= -2.29 -maxError;
 s.t. Eq50_up: 2 * i + b + ff<= -2.29 +maxError;
 s.t. Eq51_down: 2 * i + 2 * gg >= -2.56 -maxError;
 s.t. Eq51_up: 2 * i + 2 * gg<= -2.56 +maxError;
 s.t. Eq52_down: 2 * i + 2 * ff >= -2.78 -maxError;
 s.t. Eq52_up: 2 * i + 2 * ff<= -2.78 +maxError;
-
 #s.t. Eq53_down: 2 * hh + 2 * ii >= -2.31 -maxError;
 #s.t. Eq53_up: 2 * hh + 2 * ii<= -2.31 +maxError;
-
 s.t. Eq54_down: 2 * i + 2 * jj >= -2.42 -maxError;
 s.t. Eq54_up: 2 * i + 2 * jj<= -2.42 +maxError;
 s.t. Eq55_down: 2 * i + 2 * kk >= -2.51 -maxError;
@@ -188,7 +179,6 @@ s.t. Eq58_down: 2 * i + 2 * nn >= -2.34 -maxError;
 s.t. Eq58_up: 2 * i + 2 * nn<= -2.34 +maxError;
 s.t. Eq59_down: 2 * i + 2 * oo >= -2.46 -maxError;
 s.t. Eq59_up: 2 * i + 2 * oo<= -2.46 +maxError;
-
 s.t. Eq60_down: 2 * i + 2 * pp >= -2.48 -maxError;
 s.t. Eq60_up: 2 * i + 2 * pp<= -2.48 +maxError;
 s.t. Eq61_down: 2 * i + 2 * qq >= -2.54 -maxError;
@@ -201,7 +191,6 @@ s.t. Eq64_down: 2 * i + 2 * tt >= -2.80 -maxError;
 s.t. Eq64_up: 2 * i + 2 * tt<= -2.80 +maxError;
 s.t. Eq65_down: 2 * i + 2 * uu >= -2.82 -maxError;
 s.t. Eq65_up: 2 * i + 2 * uu<= -2.82 +maxError;
-
 #s.t. Eq66_down: 2 * i + vv + xx >= -2.40 -maxError;
 #s.t. Eq66_up: 2 * i + vv + xx<= -2.40 +maxError;
 #s.t. Eq67_down: 2 * i + ww + xx >= -2.61 -maxError;
