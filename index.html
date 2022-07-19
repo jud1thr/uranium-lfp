@@ -26,15 +26,13 @@
 </head>
 
 <body>
-    <script src="./dist/jquery-3.6.0.min.js"></script>
-    <script src="./dist/bootstrap.bundle.min.js"></script>
-
-    <main id="app" role="main" class="container">
-    
+<script src="./dist/jquery-3.6.0.min.js"></script>
+<script src="./dist/bootstrap.bundle.min.js"></script>
+<main id="app" role="main" class="my-5">
+<div class="container">
     <h1>Global Optimization of Lever Parameters</h1>
-    
-    
     <h2 id="ligand-data">Available Ligand Data <em><a href="#optimization">(&rarr; LP Optimization)</a></em></h2>
+    
     <table class="table table-striped table-hover">
       <caption>Please contact the authors to have your data included, or make a pull request right here on GitHub.</caption>
       <thead class="table-dark">
@@ -44,13 +42,13 @@
           <th scope="col">Components</th>
           <th scope="col">UEL</th>
           <th scope="col">Reference</th>
-          <th scope="col">Ingnore</th>
+          <th scope="col">Ignore</th>
         </tr>
       </thead>
       <tbody>
         <tr v-for="(l, i) in jsonl">
             <th scope="row">{{i}}</th>
-            <td>{{l.lig}}</td>
+            <td>{{l.lig}} <span v-if="l.local" class="badge bg-secondary">local</span></td>
             <td><span class="comp" v-for="(n, c) in l.eqn">{{n}} * {{c}}</span></td>
             <td>{{l.uel}}</td>
             <td>
@@ -66,213 +64,313 @@
       </tbody>
     </table>
 
-    <h2 id="optimization">Solve LP</h2>
+    <div class="card">
+      <div class="card-body">
+        <p>You can temporarily add new ligands to the table, to play around with the LP. At this point, you need to write those in JSON; see the two templates (with single and range UEL) below.</p>
+<pre>
+{"lig": "name", "doi": "(optional)", "eqn": {"Cp": 3, "SPh": 1}, "uel": -1.90}
+{"lig": "name", "eqn": {"Cp": 3, "BH_4": 1}, "uel": [-2.0, -1.90]}
+</pre>
+        <div class="mb-3">
+            <label for="formGroupExampleInput" class="form-label">Enter ligand data in JSON</label>
+            <input type="text" v-model="input" class="form-control" id="formGroupExampleInput" placeholder="Example input placeholder">
+        </div>
+        <div class="mb-3">
+            <button @click="checkInput" class="btn btn-primary">Verify &amp; Add</button>
+        </div>
+        <div v-if="input_error" class="alert alert-warning">{{input_error}}</div>
+      </div>
+    </div>
+</div>
 
-    <button type="button" class="btn btn-primary" @click="solve">Run optimization</button>
+<div class="container">
+    <h2 id="optimization">Linear Program</h2>
+    
+    <div class="card">
+        <div class="card-body">
+            <div class="btn-group" role="group" aria-label="Basic outlined example">
+                <button type="button" class="btn btn-primary" @click="solve">Run optimization</button>
+                <button v-if="res" type="button" class="btn" :class="{'btn-success': res.result.status === 5, 'btn-warning': res.result.status !== 5}">
+                    {{solver_status[res.result.status]}} <span class="badge text-bg-secondary">{{res.result.status}}</span>
+                </button>
+            </div>
+        </div>
+    </div>
 
     <div v-if="error" class="alert alert-danger" role="alert">
         {{error}}
     </div>
 
-    <table class="table table-striped table-hover">
-      <caption v-if="!res">Please run solver to see solution.</caption>
-      <thead class="table-dark">
-        <tr>
-          <th scope="col">Variable</th>
-          <th scope="col">Component</th>
-          <th scope="col">Value</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-if="res" v-for="u in uels">
-            <th scope="row">{{u.var}}</th>
-            <td>{{u.name}}</td>
-            <td>{{u.val}}</td>
-        </tr>
-      </tbody>
-    </table>
+    <ul v-if="res || cplex" class="nav nav-pills" id="myTab" role="tablist">
+        <li class="nav-item" role="presentation">
+        <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">Variables</button>
+        </li>
+        <li class="nav-item" role="presentation">
+        <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-tab-pane" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">CPLEX</button>
+        </li>
+        <li class="nav-item" role="presentation">
+        <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact-tab-pane" type="button" role="tab" aria-controls="contact-tab-pane" aria-selected="false">Result</button>
+        </li>
+    </ul>
+    <div v-if="res || cplex" class="tab-content" id="myTabContent">
+      <div v-if="res" class="tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
+        <div class="card card-body">
+        <table class="table table-striped table-hover">
+          <thead class="table-dark">
+            <tr>
+              <th scope="col">Variable</th>
+              <th scope="col">Component</th>
+              <th scope="col">Value</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-if="res" v-for="u in uels">
+                <th scope="row">{{u.var}}</th>
+                <td>{{u.name}}</td>
+                <td>{{u.val}}</td>
+            </tr>
+          </tbody>
+        </table>
+        </div>
+      </div>
+      <div v-if="cplex" class="tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
+        <div class="card card-body">
+          <pre>{{cplex}}</pre>
+        </div>
+      </div>
+      <div v-if="res" class="tab-pane fade" id="contact-tab-pane" role="tabpanel" aria-labelledby="contact-tab" tabindex="0">
+          <div class="card card-body">
+            <pre>{{res}}</pre>
+          </div>
+      </div>
+    </div>
 
-    <p v-show="cplex || res">
-      <a v-show="cplex" class="btn btn-primary" data-bs-toggle="collapse" href="#collCplex" role="button" aria-expanded="false" aria-controls="collCplex">
-        Show optimization problem
-      </a>
-      <a v-show="res" class="btn btn-primary" data-bs-toggle="collapse" href="#collRes" role="button" aria-expanded="false" aria-controls="collRes">
-        Show solver output
-      </a>
-    </p>
-    <div v-if="res" class="collapse" id="collRes">
-      <div class="card card-body">
-        <pre>{{res}}</pre>
-      </div>
-    </div>
-    <div v-if="cplex" class="collapse" id="collCplex">
-      <div class="card card-body">
-        <pre>{{cplex}}</pre>
-      </div>
-    </div>
-    </main>
+</div>
+</main>
 
     
-    <script type="module">
-        import { createApp } from 'vue';
-        import GLPK from 'glpk';
+<script type="module">
+import { createApp } from 'vue';
+import GLPK from 'glpk';
 
-        // vue app
-        const app = createApp({
-            created() {
-                this.load();
-            },
-            data() {
-              return {
-                jsonl: [],
-                uels: [],
-                res: null,
-                cplex: null,
-                error: null
-              }
-            },
-            methods: {
-                load() {
-                    // retrieve current ligands database
-                    fetch('./data/uel-data.jsonl')
-                        .then(resp => resp.text())
-                        .then(text => {
-                            this.jsonl = text.split(/\n/)
-                                                .map(JSON.parse)
-                                                .filter(o => o.hasOwnProperty('lig'))
-                                                .map(o => {
-                                                    // make sure all have a ignore property
-                                                    o.ignore = (o.hasOwnProperty('ignore') && o.ignore)
-                                                        ? o.ignore = true
-                                                        : o.ignore = false;
-                                                    return o;
-                                                });
-                        })
-                        .catch(err => console.log(err));
+// vue app
+const app = createApp({
+    created() {
+        this.load();
+    },
+    data() {
+      return {
+        jsonl: [],
+        uels: [],
+        res: null,
+        cplex: null,
+        error: null,
+        input: '{}',
+        input_error: null,
+        solver_status: {
+            1: "solution is undefined",
+            2: "solution is feasible",
+            3: "solution is infeasible",
+            4: "no feasible solution exists ",
+            5: "solution is optimal",
+            6: "solution is unbounded"
+        }
+      }
+    },
+    methods: {
+        load() {
+            // retrieve current ligands database
+            fetch('./data/uel-data.jsonl')
+                .then(resp => resp.text())
+                .then(text => {
+                    this.jsonl = text.split(/\n/)
+                                        .map(JSON.parse)
+                                        .filter(o => o.hasOwnProperty('lig'))
+                                        .map(o => {
+                                            // make sure all have a ignore property
+                                            o.ignore = (o.hasOwnProperty('ignore') && o.ignore)
+                                                ? o.ignore = true
+                                                : o.ignore = false;
+                                            return o;
+                                        });
+                })
+                .catch(err => console.log(err));
 
-                },
-                clear() {
-                    this.uels = [];    // computed UEL values
-                    this.res = null;   // solver result
-                    this.cplex = null; // optimization problem (cplex format)
-                    this.error = null;
-                },
-                solve() {
-                    // reset variables and status
-                    this.clear();
+        },
+        clear() {
+            this.uels = [];    // computed UEL values
+            this.res = null;   // solver result
+            this.cplex = null; // optimization problem (cplex format)
+            this.error = null;
+        },
+        checkInput(e) {
+            try {
+                const json = JSON.parse(this.input);
+                
+                if (!(typeof json === 'object' && json !== null))
+                    throw new Error('Not an object');
+                else if (!json.hasOwnProperty('lig'))
+                    throw new Error('Missing property "lig"');
+                else if (!json.hasOwnProperty('uel'))
+                    throw new Error('Missing property "uel"');
+                else if (!json.hasOwnProperty('eqn'))
+                    throw new Error('Missing property "eqn"');
 
-                    // only use active constraints
-                    var uels = this.jsonl.filter(o => o.ignore == false);
+                // check/fix ignore prop
+                if (!json.hasOwnProperty('ignore'))
+                    json.ignore = false;
+                else if (typeof json.ignore !== 'boolean')
+                    json.ignore = true;
 
-                    // single measurement: 
-                    // {"lig": "<name>", "eqn": {"<comp>": 1, "<comp>": 3, "uel": -3.05}}
-                    // multiple measurements:
-                    // {"lig": "...", "eqn": {..., "uel": [-2.52, -2.41]}}
+                // check if at least one variable
+                if (Object.keys(json.eqn).length < 1)
+                    throw new Error('Specify at least one variable');
 
-                    // build alias table for constraints (ligands) and variables (components)
-                    const c2i = new Map();
-                    const i2c = new Map();
-                    const v2i = new Map();
-                    const i2v = new Map();
+                for (const [k, v] of Object.entries(json.eqn)) {
+                    if (typeof v !== 'number')
+                        throw new Error(`Value for ${k} must be number`);
+                }
 
-                    // set error variable as first/0
-                    v2i.set('err', 0);
-                    i2v.set(0, 'err');
+                if (typeof json.uel === 'number') {
+                    // fine.
+                } else if (Array.isArray(json.uel)) {
+                    if (json.uel.length != 2)
+                        throw new Error('UEL range must be two numbers');
+                    if (!(typeof json.uel[0] === 'number' && typeof json.uel[1] === 'number'))
+                        throw new Error('UEL range must be two numbers');
+                } else {
+                    throw new Error('uel must be either number or array of two numbers (range)');
+                }
 
-                    var cc = 1;
-                    var vc = 1;
-                    for (const uel of uels) {
-                        if (c2i.has(uel.lig))
-                            console.warn(`Duplicated constraint/ligand ${uel.lig}`);
+                // mark as local
+                json.local = true;
 
-                        // add constraint (ligand)
-                        c2i.set(uel.lig, cc);
-                        i2c.set(cc, uel.lig);
-                        cc = cc + 1;
+                // looking good!
+                this.input_error = null;
+                this.jsonl.push(json);
 
-                        // add variables (components), if not present
-                        for (const k of Object.keys(uel.eqn)) {
-                            if (v2i.has(k)) continue;
-                            v2i.set(k, vc);
-                            i2v.set(vc, k);
-                            vc = vc + 1;
-                        }
-                    }
+                return true;
+            } catch (ex) {
+                this.input_error = ex;
+                return false;
+            }
+        },
+        solve() {
+            // reset variables and status
+            this.clear();
 
+            // only use active constraints
+            var uels = this.jsonl.filter(o => o.ignore == false);
 
-                    GLPK().then(glpk => {
-                        // build the constraints
-                        const subjectTo = uels.flatMap((o, i) => {
-                            let constr = Object.entries(o.eqn)
-                                                  .map(([k, v]) => { return {name: `var_${v2i.get(k)}`, coef: v}; });
-                            let uel = o.uel;
+            // single measurement: 
+            // {"lig": "<name>", "eqn": {"<comp>": 1, "<comp>": 3, "uel": -3.05}}
+            // multiple measurements:
+            // {"lig": "...", "eqn": {..., "uel": [-2.52, -2.41]}}
 
-                            return [{
-                                name: `constr_${i}_${c2i.get(o.lig)}_lo`,
-                                vars: [constr, {name: 'err', coef: 1.0}].flat(),
-                                bnds: {type: glpk.GLP_LO, ub: 0.0, lb: Array.isArray(uel) ? Math.min(...uel) : uel}
-                            }, {
-                                name: `constr_${i}_${c2i.get(o.lig)}_up`,
-                                vars: [constr, {name: 'err', coef: -1.0}].flat(),
-                                bnds: { type: glpk.GLP_UP, ub: Array.isArray(uel) ? Math.max(...uel) : uel, lb: 0.0}
-                            }];
-                        });
+            // build alias table for constraints (ligands) and variables (components)
+            const c2i = new Map();
+            const i2c = new Map();
+            const v2i = new Map();
+            const i2v = new Map();
 
-                        // define LP
-                        const lp = {
-                            name: 'LP',
-                            objective: {
-                                direction: glpk.GLP_MIN,
-                                name: 'obj',
-                                vars: [{name: 'err', coef: 1.0}]
-                            },
-                            subjectTo: subjectTo,
-                            bounds: Array.from(i2v, ([k, v]) => { 
-                                let a = (k == 0
-                                    ? 'err'
-                                    : `var_${k}`);
-                                return {name: a, type: glpk.GLP_FR };
-                            })
-                        };
+            // set error variable as first/0
+            v2i.set('err', 0);
+            i2v.set(0, 'err');
 
-                        // configure solver
-                        const opt = {
-                            msglev: glpk.GLP_MSG_ALL,
-                            presol: true,
-                            /* no need for callbacks at this point...
-                            cb: {
-                                call: res => print(res),
-                                each: 1
-                            }
-                            */
-                        };
+            var cc = 1;
+            var vc = 1;
+            for (const uel of uels) {
+                if (c2i.has(uel.lig))
+                    console.warn(`Duplicated constraint/ligand ${uel.lig}`);
 
-                        // run the optimization
-                        glpk.solve(lp, opt)
-                              .then(res => {
-                                this.res = res;
-                                this.uels = Array.from(i2v, ([k, v]) => {
-                                  let a = (k == 0
-                                    ? 'err'
-                                    : `var_${k}`);
-                                  return {var: a, name: v, i: k, val: res.result.vars[a]};
-                                });
+                // add constraint (ligand)
+                c2i.set(uel.lig, cc);
+                i2c.set(cc, uel.lig);
+                cc = cc + 1;
 
-                                glpk.write(lp).then(res => {
-                                  this.cplex = res;
-                                });
-                              })
-                              .catch(err => {
-                                this.error = err;
-                                console.log(err);
-                              });
-                    });
+                // add variables (components), if not present
+                for (const k of Object.keys(uel.eqn)) {
+                    if (v2i.has(k)) continue;
+                    v2i.set(k, vc);
+                    i2v.set(vc, k);
+                    vc = vc + 1;
                 }
             }
-        });
-        
-        app.mount('#app');
-        </script>
+
+
+            GLPK().then(glpk => {
+                // build the constraints
+                const subjectTo = uels.flatMap((o, i) => {
+                    let constr = Object.entries(o.eqn)
+                                          .map(([k, v]) => { return {name: `var_${v2i.get(k)}`, coef: v}; });
+                    let uel = o.uel;
+
+                    return [{
+                        name: `constr_${i}_${c2i.get(o.lig)}_lo`,
+                        vars: [constr, {name: 'err', coef: 1.0}].flat(),
+                        bnds: {type: glpk.GLP_LO, ub: 0.0, lb: Array.isArray(uel) ? Math.min(...uel) : uel}
+                    }, {
+                        name: `constr_${i}_${c2i.get(o.lig)}_up`,
+                        vars: [constr, {name: 'err', coef: -1.0}].flat(),
+                        bnds: { type: glpk.GLP_UP, ub: Array.isArray(uel) ? Math.max(...uel) : uel, lb: 0.0}
+                    }];
+                });
+
+                // define LP
+                const lp = {
+                    name: 'LP',
+                    objective: {
+                        direction: glpk.GLP_MIN,
+                        name: 'obj',
+                        vars: [{name: 'err', coef: 1.0}]
+                    },
+                    subjectTo: subjectTo,
+                    bounds: Array.from(i2v, ([k, v]) => { 
+                        let a = (k == 0
+                            ? 'err'
+                            : `var_${k}`);
+                        return {name: a, type: glpk.GLP_FR };
+                    })
+                };
+
+                // configure solver
+                const opt = {
+                    msglev: glpk.GLP_MSG_ALL,
+                    presol: true,
+                    /* no need for callbacks at this point...
+                    cb: {
+                        call: res => print(res),
+                        each: 1
+                    }
+                    */
+                };
+
+                // run the optimization
+                glpk.solve(lp, opt)
+                      .then(res => {
+                        this.res = res;
+                        this.uels = Array.from(i2v, ([k, v]) => {
+                          let a = (k == 0
+                            ? 'err'
+                            : `var_${k}`);
+                          return {var: a, name: v, i: k, val: res.result.vars[a]};
+                        });
+
+                        glpk.write(lp).then(res => {
+                          this.cplex = res;
+                        });
+                      })
+                      .catch(err => {
+                        this.error = err;
+                        console.log(err);
+                      });
+            });
+        }
+    }
+});
+
+app.mount('#app');
+</script>
 </body>
 
 </html>
