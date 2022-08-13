@@ -5,7 +5,7 @@
 {"lig": "[(Cp)_3 U (SiPr)]", "eqn": {"Cp": 3, "SiPr": 1}, "uel": -2.03}
 {"lig": "[(Cp)_3 U (OiPr)]", "eqn": {"Cp": 3, "OiPr": 1}, "uel": -2.39}
 {"lig": "[(tmp)_2 U (BH_4)_2]", "eqn": {"tmp": 2, "BH_4": 2}, "uel": -1.50}
-{"lig": "[(Cp)_2 U (BH_4)_2]", "eqn": {"CP": 2, "BH_4": 2}, "uel": -1.62}
+{"lig": "[(Cp)_2 U (BH_4)_2]", "eqn": {"Cp": 2, "BH_4": 2}, "uel": -1.62}
 {"lig": "[(tBuCp)_2 U (BH_4)_2]", "eqn": {"tBuCp": 2, "BH_4": 2}, "uel": -1.63}
 {"lig": "[(Cp*) (tmp) U (BH_4)_2]", "eqn": {"Cp*": 1, "tmp": 1, "BH_4": 2}, "uel": -1.66}
 {"lig": "[(Cp*)_2 U (BH_4)_2]", "eqn": {"Cp*": 2, "BH_4": 2}, "uel": -1.83}
