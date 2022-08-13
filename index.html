@@ -46,7 +46,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(l, i) in jsonl">
+        <tr v-for="(l, i) in jsonl" @click="copyInput(l)">
             <th scope="row">{{i}}</th>
             <td>{{l.lig}} <span v-if="l.local" class="badge bg-secondary">local</span></td>
             <td><span class="comp" v-for="(n, c) in l.eqn">{{n}} * {{c}}</span></td>
@@ -64,7 +64,7 @@
       </tbody>
     </table>
 
-    <div class="card">
+    <div class="card" ref="add-ligand-data">
       <div class="card-body">
         <p>You can temporarily add new ligands to the table, to play around with the LP. At this point, you need to write those in JSON; see the two templates (with single and range UEL) below.</p>
 <pre>
@@ -202,6 +202,27 @@ const app = createApp({
             this.res = null;   // solver result
             this.cplex = null; // optimization problem (cplex format)
             this.error = null;
+        },
+        copyInput(e) {
+            var obj = {}
+            obj = Object.assign(obj, e);
+
+            delete obj.local;
+            delete obj.doi;
+            delete obj.ignore;
+
+            if (obj.hasOwnProperty('lig'))
+                obj.lig += " copy";
+            else
+                obj.lig = "unnamed ligand";
+
+            this.input = JSON.stringify(obj);
+            this.goto('add-ligand-data');
+        },
+        goto(refName) {
+            var element = this.$refs[refName];
+            var top = element.offsetTop;
+            window.scrollTo(0, top);
         },
         checkInput(e) {
             try {
