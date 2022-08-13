@@ -1,6 +1,6 @@
 {"lig": "[(Cp)_3 U Cl]", "doi": ["10.1021/ic00288a036", "10.1016/S0022-0728(98)00029-1", "10.1021/jp301925k", "10.1039/B820873E"], "eqn": {"Cp": 3, "Cl": 1}, "uel": [-1.88, -1.80]}
 {"lig": "[(Cp)_3 U (SPh)]", "doi": "10.1039/B820873E", "eqn": {"Cp": 3, "SPh": 1}, "uel": -1.90}
-{"lig": "[(Cp)_3 U (BH_4)]", "eqn": {"Cp": 3, "BH_4": 1}, "uel": [-2.0, -1.90], "ignore": "inconsistent measurements"}
+{"lig": "[(Cp)_3 U (BH_4)]", "eqn": {"Cp": 3, "BH_4": 1}, "uel": [-2.0, -1.88], "ignore": "inconsistent measurements"}
 {"lig": "[U (Cp)_4]", "doi": "10.1021/ic00288a036", "eqn": {"Cp": 4}, "uel": -1.94}
 {"lig": "[(Cp)_3 U (SiPr)]", "eqn": {"Cp": 3, "SiPr": 1}, "uel": -2.03}
 {"lig": "[(Cp)_3 U (OiPr)]", "eqn": {"Cp": 3, "OiPr": 1}, "uel": -2.39}
