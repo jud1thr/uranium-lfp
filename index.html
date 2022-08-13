@@ -47,7 +47,7 @@
       </thead>
       <tbody>
         <tr v-for="(l, i) in jsonl">
-            <th scope="row" @click="copyInput(l)">{{i}}</th>
+            <th scope="row" style="cursor: pointer" @click="copyInput(l)">{{i}}</th>
             <td>{{l.lig}} <span v-if="l.local" class="badge bg-secondary">local</span></td>
             <td><span class="comp" v-for="(n, c) in l.eqn">{{n}} * {{c}}</span></td>
             <td>{{l.uel}}</td>
