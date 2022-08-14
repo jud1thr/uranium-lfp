@@ -40,17 +40,19 @@
           <th scope="col">#</th>
           <th scope="col">Ligand</th>
           <th scope="col">Components</th>
-          <th scope="col">UEL</th>
+          <th scope="col">E1/2</th>
+          <th v-if="res" scope="col">sum_uel</th>
           <th scope="col">Reference</th>
           <th scope="col">Ignore</th>
         </tr>
       </thead>
       <tbody>
         <tr v-for="(l, i) in jsonl">
-            <th scope="row" style="cursor: pointer" @click="copyInput(l)">{{i}}</th>
+            <th scope="row" style="cursor: pointer" @click="copyInput(l)">{{i+1}}</th>
             <td>{{l.lig}} <span v-if="l.local" class="badge bg-secondary">local</span></td>
             <td><span class="comp" v-for="(n, c) in l.eqn">{{n}} * {{c}}</span></td>
             <td>{{l.uel}}</td>
+            <td v-if="res">{{l.sum || ''}}</td>
             <td>
                 <span class="ref" v-if="Array.isArray(l.doi)" v-for="(d,j) in l.doi"><a v-bind:href="'https://doi.org/'+d">{{j+1}}</a> </span>
                 <span v-else-if="l.doi"><a v-bind:href="'https://doi.org/'+l.doi">{{1}}</a> </span>
@@ -375,6 +377,21 @@ const app = createApp({
                             ? 'err'
                             : `var_${k}`);
                           return {var: a, name: v, i: k, val: res.result.vars[a]};
+                        });
+
+                        // compute the sum_uel values for any non-ignored
+                        this.jsonl.forEach(o => {
+                                if (o.ignore) {
+                                    delete o.sum;
+                                    return;
+                                }
+                                o.sum = 0.0;
+                                Object.entries(o.eqn)
+                                        .forEach(([k, v]) => { 
+                                            let a = `var_${v2i.get(k)}`;
+                                            o.sum += v * res.result.vars[a];
+                                });
+                                o.sum = o.sum.toFixed(3);
                         });
 
                         glpk.write(lp).then(res => {

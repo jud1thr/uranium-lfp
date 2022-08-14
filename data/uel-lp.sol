@@ -1,7 +1,7 @@
 Problem:    uel
-Rows:       107
-Columns:    44
-Non-zeros:  333
+Rows:       105
+Columns:    43
+Non-zeros:  325
 Status:     OPTIMAL
 Objective:  maxOfAllErrors = 0.025 (MINimum)
 
@@ -77,45 +77,43 @@ Objective:  maxOfAllErrors = 0.025 (MINimum)
     66 Eq43_up      B          -2.02                       -1.97 
     67 Eq44_down    NL         -2.04         -2.04                       < eps
     68 Eq44_up      B          -2.09                       -2.04 
-    69 Eq45_down    B          -2.01         -2.06               
-    70 Eq45_up      NU         -2.06                       -2.06         < eps
-    71 Eq46_down    B           -2.1         -2.15               
-    72 Eq46_up      NU         -2.15                       -2.15         < eps
-    73 Eq47_down    B           -2.3         -2.35               
-    74 Eq47_up      NU         -2.35                       -2.35         < eps
-    75 Eq49_down    B         -1.965         -2.01               
-    76 Eq49_up      B         -2.015                       -2.01 
-    77 Eq50_down    NL         -2.29         -2.29                    0.166667 
-    78 Eq50_up      B          -2.34                       -2.29 
-    79 Eq51_down    B          -2.51         -2.56               
-    80 Eq51_up      NU         -2.56                       -2.56         < eps
-    81 Eq52_down    B          -2.73         -2.78               
-    82 Eq52_up      NU         -2.78                       -2.78    -0.0833333 
-    83 Eq54_down    B          -2.37         -2.42               
-    84 Eq54_up      NU         -2.42                       -2.42         < eps
-    85 Eq55_down    B          -2.46         -2.51               
-    86 Eq55_up      NU         -2.51                       -2.51         < eps
-    87 Eq56_down    B          -2.52         -2.57               
-    88 Eq56_up      NU         -2.57                       -2.57         < eps
-    89 Eq57_down    B          -2.63         -2.68               
-    90 Eq57_up      NU         -2.68                       -2.68         < eps
-    91 Eq58_down    B          -2.29         -2.34               
-    92 Eq58_up      NU         -2.34                       -2.34         < eps
-    93 Eq59_down    B          -2.41         -2.46               
-    94 Eq59_up      NU         -2.46                       -2.46         < eps
-    95 Eq60_down    B          -2.43         -2.48               
-    96 Eq60_up      NU         -2.48                       -2.48         < eps
-    97 Eq61_down    B          -2.49         -2.54               
-    98 Eq61_up      NU         -2.54                       -2.54         < eps
-    99 Eq62_down    B          -2.57         -2.62               
-   100 Eq62_up      NU         -2.62                       -2.62         < eps
-   101 Eq63_down    B          -2.59         -2.64               
-   102 Eq63_up      NU         -2.64                       -2.64         < eps
-   103 Eq64_down    B          -2.75          -2.8               
-   104 Eq64_up      NU          -2.8                        -2.8         < eps
-   105 Eq65_down    B          -2.77         -2.82               
-   106 Eq65_up      NU         -2.82                       -2.82         < eps
-   107 maxOfAllErrors
+    69 Eq46_down    B           -2.1         -2.15               
+    70 Eq46_up      NU         -2.15                       -2.15         < eps
+    71 Eq47_down    B           -2.3         -2.35               
+    72 Eq47_up      NU         -2.35                       -2.35         < eps
+    73 Eq49_down    B         -1.965         -2.01               
+    74 Eq49_up      B         -2.015                       -2.01 
+    75 Eq50_down    NL         -2.29         -2.29                    0.166667 
+    76 Eq50_up      B          -2.34                       -2.29 
+    77 Eq51_down    B          -2.51         -2.56               
+    78 Eq51_up      NU         -2.56                       -2.56         < eps
+    79 Eq52_down    B          -2.73         -2.78               
+    80 Eq52_up      NU         -2.78                       -2.78    -0.0833333 
+    81 Eq54_down    B          -2.37         -2.42               
+    82 Eq54_up      NU         -2.42                       -2.42         < eps
+    83 Eq55_down    B          -2.46         -2.51               
+    84 Eq55_up      NU         -2.51                       -2.51         < eps
+    85 Eq56_down    B          -2.52         -2.57               
+    86 Eq56_up      NU         -2.57                       -2.57         < eps
+    87 Eq57_down    B          -2.63         -2.68               
+    88 Eq57_up      NU         -2.68                       -2.68         < eps
+    89 Eq58_down    B          -2.29         -2.34               
+    90 Eq58_up      NU         -2.34                       -2.34         < eps
+    91 Eq59_down    B          -2.41         -2.46               
+    92 Eq59_up      NU         -2.46                       -2.46         < eps
+    93 Eq60_down    B          -2.43         -2.48               
+    94 Eq60_up      NU         -2.48                       -2.48         < eps
+    95 Eq61_down    B          -2.49         -2.54               
+    96 Eq61_up      NU         -2.54                       -2.54         < eps
+    97 Eq62_down    B          -2.57         -2.62               
+    98 Eq62_up      NU         -2.62                       -2.62         < eps
+    99 Eq63_down    B          -2.59         -2.64               
+   100 Eq63_up      NU         -2.64                       -2.64         < eps
+   101 Eq64_down    B          -2.75          -2.8               
+   102 Eq64_up      NU          -2.8                        -2.8         < eps
+   103 Eq65_down    B          -2.77         -2.82               
+   104 Eq65_up      NU         -2.82                       -2.82         < eps
+   105 maxOfAllErrors
                     B          0.025                             
 
    No. Column name  St   Activity     Lower bound   Upper bound    Marginal
@@ -141,46 +139,45 @@ Objective:  maxOfAllErrors = 0.025 (MINimum)
     19 s            B       -0.20125                             
     20 t            B       -0.27125                             
     21 u            B       -0.40125                             
-    22 v            B       -0.31125                             
-    23 w            B       -0.60125                             
-    24 x            B       -0.69125                             
-    25 y            B       -0.74125                             
-    26 z            B       -0.54375                             
-    27 aa           B        -1.2575                             
-    28 bb           B        -1.2425                             
-    29 cc           B       -0.53125                             
-    30 ff           B       -0.78125                             
-    31 gg           B       -0.67125                             
-    32 jj           B       -0.60125                             
-    33 kk           B       -0.64625                             
-    34 ll           B       -0.67625                             
-    35 mm           B       -0.73125                             
-    36 nn           B       -0.56125                             
-    37 oo           B       -0.62125                             
-    38 pp           B       -0.63125                             
-    39 qq           B       -0.66125                             
-    40 rr           B       -0.70125                             
-    41 ss           B       -0.71125                             
-    42 tt           B       -0.79125                             
-    43 uu           B       -0.80125                             
-    44 maxError     B          0.025                             
+    22 w            B       -0.60125                             
+    23 x            B       -0.69125                             
+    24 y            B       -0.74125                             
+    25 z            B       -0.54375                             
+    26 aa           B        -1.2575                             
+    27 bb           B        -1.2425                             
+    28 cc           B       -0.53125                             
+    29 ff           B       -0.78125                             
+    30 gg           B       -0.67125                             
+    31 jj           B       -0.60125                             
+    32 kk           B       -0.64625                             
+    33 ll           B       -0.67625                             
+    34 mm           B       -0.73125                             
+    35 nn           B       -0.56125                             
+    36 oo           B       -0.62125                             
+    37 pp           B       -0.63125                             
+    38 qq           B       -0.66125                             
+    39 rr           B       -0.70125                             
+    40 ss           B       -0.71125                             
+    41 tt           B       -0.79125                             
+    42 uu           B       -0.80125                             
+    43 maxError     B          0.025                             
 
 Karush-Kuhn-Tucker optimality conditions:
 
-KKT.PE: max.abs.err = 1.78e-15 on row 56
-        max.rel.err = 3.43e-16 on row 56
+KKT.PE: max.abs.err = 8.88e-16 on row 4
+        max.rel.err = 2.06e-16 on row 15
         High quality
 
 KKT.PB: max.abs.err = 0.00e+00 on row 0
         max.rel.err = 0.00e+00 on row 0
         High quality
 
-KKT.DE: max.abs.err = 1.50e-15 on column 8
-        max.rel.err = 8.88e-16 on column 7
+KKT.DE: max.abs.err = 1.11e-15 on column 1
+        max.rel.err = 6.66e-16 on column 1
         High quality
 
-KKT.DB: max.abs.err = 4.44e-16 on row 12
-        max.rel.err = 4.44e-16 on row 12
+KKT.DB: max.abs.err = 1.67e-16 on row 72
+        max.rel.err = 1.67e-16 on row 72
         High quality
 
 End of output

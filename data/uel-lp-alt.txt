@@ -66,13 +66,13 @@ s.t. Eq1_2_3_up: 3 * a + b <= -1.80 + maxError;
 s.t. Eq4_down: 3 * a + c >= -1.90 -maxError;
 s.t. Eq4_up: 3 * a + c<= -1.90 +maxError;
 
-#s.t. Eq5_6a_down: 3 * a + d <= -1.88 -maxError;
-#s.t. Eq5_6a_up: 3 * a + d <= -1.88 +maxError;
-#s.t. Eq5_6b_down: 3 * a + d >= -2.00 -maxError;
-#s.t. Eq5_6b_up: 3 * a + d >= -2.00 +maxError;
+s.t. Eq5_6a_down: 3 * a + d <= -1.88 -maxError;
+s.t. Eq5_6a_up: 3 * a + d <= -1.88 +maxError;
+s.t. Eq5_6b_down: 3 * a + d >= -2.00 -maxError;
+s.t. Eq5_6b_up: 3 * a + d >= -2.00 +maxError;
 
-s.t. Eq7_down: 4 * a >= -1.94 -maxError;
-s.t. Eq7_up: 4 * a<= -1.94 +maxError;
+#s.t. Eq7_down: 4 * a >= -1.94 -maxError;
+#s.t. Eq7_up: 4 * a<= -1.94 +maxError;
 s.t. Eq8_down: 3 * a + e >= -2.03 -maxError;
 s.t. Eq8_up: 3 * a + e<= -2.03 +maxError;
 s.t. Eq9_down: 3 * a + f >= -2.39 -maxError;

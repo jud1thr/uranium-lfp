@@ -1,7 +1,7 @@
 {"lig": "[(Cp)_3 U Cl]", "doi": ["10.1021/ic00288a036", "10.1016/S0022-0728(98)00029-1", "10.1021/jp301925k", "10.1039/B820873E"], "eqn": {"Cp": 3, "Cl": 1}, "uel": [-1.88, -1.80]}
 {"lig": "[(Cp)_3 U (SPh)]", "doi": "10.1039/B820873E", "eqn": {"Cp": 3, "SPh": 1}, "uel": -1.90}
-{"lig": "[(Cp)_3 U (BH_4)]", "eqn": {"Cp": 3, "BH_4": 1}, "uel": [-2.0, -1.88], "ignore": "inconsistent measurements"}
-{"lig": "[U (Cp)_4]", "doi": "10.1021/ic00288a036", "eqn": {"Cp": 4}, "uel": -1.94}
+{"lig": "[(Cp)_3 U (BH_4)]", "eqn": {"Cp": 3, "BH_4": 1}, "uel": [-2.0, -1.88]}
+{"lig": "[U (Cp)_4]", "doi": "10.1021/ic00288a036", "eqn": {"Cp": 4}, "uel": -1.94, "ignore": true}
 {"lig": "[(Cp)_3 U (SiPr)]", "eqn": {"Cp": 3, "SiPr": 1}, "uel": -2.03}
 {"lig": "[(Cp)_3 U (OiPr)]", "eqn": {"Cp": 3, "OiPr": 1}, "uel": -2.39}
 {"lig": "[(tmp)_2 U (BH_4)_2]", "eqn": {"tmp": 2, "BH_4": 2}, "uel": -1.50}
@@ -21,12 +21,12 @@
 {"lig": "[(Cp*)_2 U (η2-(N,N')-tetrazolate)_2]", "eqn": {"Cp*": 2, "η2-(N,N')-tetrazolate": 2}, "uel": -1.76}
 {"lig": "[(Cp*)_2 U (Me) (SO_3CF_3)]", "eqn": {"Cp*": 2, "Me": 1, "SO_3CF_3": 1}, "uel": -1.83}
 {"lig": "[(Cp*)_2 U (CH_2Ph)_2]", "eqn": {"Cp*": 2, "CH_2Ph": 2}, "uel": -1.95}
-{"lig": "[(Cp*) U (CH_2Ph)_3]", "eqn": {"Cp*": 1, "CH_2Ph": 3}, "uel": -2.00, "ignore": "inconsistent measurements"}
+{"lig": "[(Cp*) U (CH_2Ph)_3]", "eqn": {"Cp*": 1, "CH_2Ph": 3}, "uel": -2.00, "ignore": true}
 {"lig": "[(CpiPr4)_2 U (I)_2]", "eqn": {"CpiPr4": 2, "I": 2}, "uel": -1.41}
 {"lig": "[(CpiPr4)_2 U (Br)_2]", "eqn": {"CpiPr4": 2, "Br": 2}, "uel": -1.57}
 {"lig": "[(CpiPr4)_2 U (Cl)_2]", "eqn": {"CpiPr4": 2, "Cl": 2}, "uel": -1.70}
 {"lig": "[(CpiPr4)_2 U (N_3)_2]", "eqn": {"CpiPr4": 2, "N_3": 2}, "uel": -1.81}
-{"lig": "[(CpiPr4)_2 U (NCO)_2]", "eqn": {"CpiPr4": 2, "NCO": 2}, "uel": -1.91, "ignore": "inconsistent measurements"}
+{"lig": "[(CpiPr4)_2 U (NCO)_2]", "eqn": {"CpiPr4": 2, "NCO": 2}, "uel": -1.91, "ignore": true}
 {"lig": "[(CpiPr4)_2 U (F)_2]", "eqn": {"CpiPr4": 2, "F": 2}, "uel": -2.23}
 {"lig": "[(PN)_2 U Cl_2]", "eqn": {"PN": 2, "Cl": 2}, "uel": -2.09}
 {"lig": "[(PNP)_2 U Cl_2]", "eqn": {"PNP": 2, "Cl": 2}, "uel": -2.19}
@@ -35,10 +35,10 @@
 {"lig": "[(COT) U (N(SiMe_3)_2)_2]", "eqn": {"COT": 1, "N(SiMe_3)_2": 2}, "uel": -2.33}
 {"lig": "[(Cp*)_2 U (N(SiMe_3)_2) (Br)]", "eqn": {"Cp*": 2, "N(SiMe_3)_2": 1, "Br": 1}, "uel": -1.97}
 {"lig": "[(Cp*)_2 U (N(SiMe_3)_2) (Cl)]", "eqn": {"Cp*": 2, "N(SiMe_3)_2": 1, "Cl": 1}, "uel": -2.04}
-{"lig": "[(Cp*)_2 U (N(SiMe_3)_2) (NCO)]", "eqn": {"Cp*": 2, "N(SiMe_3)_2": 1, "NCO": 1}, "uel": -2.06}
+{"lig": "[(Cp*)_2 U (N(SiMe_3)_2) (NCO)]", "eqn": {"Cp*": 2, "N(SiMe_3)_2": 1, "NCO": 1}, "uel": -2.06, "ignore": true}
 {"lig": "[(Cp*)_2 U (N(SiMe_3)_2) (N_3)]", "eqn": {"Cp*": 2, "N(SiMe_3)_2": 1, "N_3": 1}, "uel": -2.15}
 {"lig": "[(Cp*)_2 U (N(SiMe_3)_2) (F)]", "eqn": {"Cp*": 2, "N(SiMe_3)_2": 1, "F": 1}, "uel": -2.35}
-{"lig": "[(Cp*)_2 U (NPh_2) (C≡CPh)]", "eqn": {"Cp*": 2, "NPh_2": 1, "C≡CPh": 1}, "uel": -2.25, "ignore": "inconsistent measurements"}
+{"lig": "[(Cp*)_2 U (NPh_2) (C≡CPh)]", "eqn": {"Cp*": 2, "NPh_2": 1, "C≡CPh": 1}, "uel": -2.25, "ignore": true}
 {"lig": "[(Cp*)_2 U (SO_3CF_3) (η2(N,N')-CH_3NN=CPh_2)]", "eqn": {"Cp*": 2, "SO_3CF_3": 1, "η2(N,N')-CH_3NN=CPh_2": 1}, "uel": -2.01}
 {"lig": "[(Cp*)_2 U (Cl) (η2(N,N')-CH_3NN=CPh_2)]", "eqn": {"Cp*": 2, "Cl": 1, "η2(N,N')-CH_3NN=CPh_2": 1}, "uel": -2.29}
 {"lig": "[(Cp*)_2 U (η2(N,N')-CH_2PhNN=CPh_2)_2]", "eqn": {"Cp*": 2, "η2(N,N')-CH_2PhNN=CPh_2": 2}, "uel": -2.56}
@@ -56,5 +56,5 @@
 {"lig": "[(Cp*)_2 U (–N=C(CH_3)(4-F-C_6H_4))_2]", "eqn": {"Cp*": 2, "–N=C(CH_3)(4-F-C_6H_4))_2": 2}, "uel": -2.64}
 {"lig": "[(Cp*)_2 U (–N=C(CH_3)(2,4,6-F_3-C_6H_2))_2]", "eqn": {"Cp*": 2, "–N=C(CH_3)(2,4,6-F_3-C_6H_2)": 2}, "uel": -2.80}
 {"lig": "[(Cp*)_2 U (–N=C(CH_3)(2,6-F_2-C_6H_3))_2]", "eqn": {"Cp*": 2, "–N=C(CH_3)(2,6-F_2-C_6H_3)": 2}, "uel": -2.82}
-{"lig": "[(Cp*)_2 U (=N–2,6-iPr_2–C_6H_3) (THF)]", "eqn": {"Cp*": 2, "=N–2,6-iPr_2–C_6H_3": 1, "THF": 1}, "uel": -2.40, "ignore": "inconsistent measurements"}
-{"lig": "[(Cp*)_2 U (=N–2,4,6-tBu_3–C_6H_2) (THF)]", "eqn": {"Cp*": 2, "=N–2,4,6-tBu_3–C_6H_2": 1, "THF": 1}, "uel": -2.61, "ignore": "inconsistent measurements"}
+{"lig": "[(Cp*)_2 U (=N–2,6-iPr_2–C_6H_3) (THF)]", "eqn": {"Cp*": 2, "=N–2,6-iPr_2–C_6H_3": 1, "THF": 1}, "uel": -2.40, "ignore": true}
+{"lig": "[(Cp*)_2 U (=N–2,4,6-tBu_3–C_6H_2) (THF)]", "eqn": {"Cp*": 2, "=N–2,4,6-tBu_3–C_6H_2": 1, "THF": 1}, "uel": -2.61, "ignore": true}
