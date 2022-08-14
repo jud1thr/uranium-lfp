@@ -2,7 +2,7 @@ GLPSOL--GLPK LP/MIP Solver 5.0
 Parameter(s) specified in the command line:
  -m uel-lp.txt -o uel-lp.sol
 Reading model section from uel-lp.txt...
-260 lines were read
+259 lines were read
 Generating Eq1_2_3_down...
 Generating Eq1_2_3_up...
 Generating Eq4_down...
@@ -138,7 +138,7 @@ Me	-0.59625
 Oet	-0.80625
 TMSCp	-0.487917
 MeCp	-0.527917
-nu2NN'tetrazolate	-0.27125
+n2NN'tetrazolate	-0.27125
 SO3CF3	-0.01625
 CH2Ph	-0.36625
 CPiPr4	-0.51625
@@ -151,22 +151,22 @@ PN	-0.69125
 PNP	-0.74125
 bipy-	-0.54375
 fc(NSi(tBu)Me2)2	-1.2575
-Cp	-1.2425
-SPh	-0.53125
-OiPr	-0.78125
-tmp	-0.67125
-NEt2	-0.60125
-Me	-0.64625
-Oet	-0.67625
-TMSCp	-0.73125
-MeCp	-0.56125
-n2NN'tetrazolate	-0.62125
-SO3CF3	-0.63125
-CH2Ph	-0.66125
-CPiPr4	-0.70125
-I	-0.71125
-Br	-0.79125
-N3	-0.80125
+COT	-1.2425
+N(SiMe)2	-0.53125
+n2(N,N')-CH3NN=CPh2	-0.78125
+n2(N,N')-CH2PhNN=CPh2	-0.67125
+-N=C(CH2C6J5)(tpy)	-0.60125
+-N=C(Ph)(Ph)	-0.64625
+-N=C(Ph)(CH2Ph)	-0.67625
+-N=C(Ph)(CH3)	-0.73125
+-N=C(CH3)(C6F5)	-0.56125
+-N=C(CH3)(3,5-F2-C6H3)	-0.62125
+–N=C(CH3)(3,4,5-F3-C6H2)	-0.63125
+–N=C(CH3)(3-F-C6H4)	-0.66125
+–N=C(CH3)(2-F-C6H4)	-0.70125
+–N=C(CH3)(4-F-C6H4)	-0.71125
+–N=C(CH3)(2,4,6-F3-C6H2)	-0.79125
+–N=C(CH3)(2,6-F2-C6H3)	-0.80125
 maxError	0.025
 Model has been successfully processed
 Writing basic solution to 'uel-lp.sol'...

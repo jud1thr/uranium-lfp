@@ -41,7 +41,7 @@
           <th scope="col">Ligand</th>
           <th scope="col">Components</th>
           <th scope="col">E1/2</th>
-          <th v-if="res" scope="col">sum_uel</th>
+          <th v-if="res" scope="col">sum UEL</th>
           <th scope="col">Reference</th>
           <th scope="col">Ignore</th>
         </tr>
@@ -51,7 +51,7 @@
             <th scope="row" style="cursor: pointer" @click="copyInput(l)">{{i+1}}</th>
             <td>{{l.lig}} <span v-if="l.local" class="badge bg-secondary">local</span></td>
             <td><span class="comp" v-for="(n, c) in l.eqn">{{n}} * {{c}}</span></td>
-            <td>{{l.uel}}</td>
+            <td>{{l.e12}}</td>
             <td v-if="res">{{l.sum || ''}}</td>
             <td>
                 <span class="ref" v-if="Array.isArray(l.doi)" v-for="(d,j) in l.doi"><a v-bind:href="'https://doi.org/'+d">{{j+1}}</a> </span>
@@ -70,8 +70,8 @@
       <div class="card-body">
         <p>You can temporarily add new ligands to the table, to play around with the LP. At this point, you need to write those in JSON; see the two templates (with single and range UEL) below.</p>
 <pre>
-{"lig": "name", "doi": "(optional)", "eqn": {"Cp": 3, "SPh": 1}, "uel": -1.90}
-{"lig": "name", "eqn": {"Cp": 3, "BH_4": 1}, "uel": [-2.0, -1.90]}
+{"lig": "name", "doi": "(optional)", "eqn": {"Cp": 3, "SPh": 1}, "e12": -1.90}
+{"lig": "name", "eqn": {"Cp": 3, "BH_4": 1}, "e12": [-2.0, -1.90]}
 </pre>
         <div class="mb-3">
             <label for="formGroupExampleInput" class="form-label">Enter ligand data in JSON</label>
@@ -212,6 +212,7 @@ const app = createApp({
             delete obj.local;
             delete obj.doi;
             delete obj.ignore;
+            delete obj.sum;
 
             if (obj.hasOwnProperty('lig'))
                 obj.lig += " copy";
@@ -235,7 +236,7 @@ const app = createApp({
                 else if (!json.hasOwnProperty('lig'))
                     throw new Error('Missing property "lig"');
                 else if (!json.hasOwnProperty('uel'))
-                    throw new Error('Missing property "uel"');
+                    throw new Error('Missing property "e12"');
                 else if (!json.hasOwnProperty('eqn'))
                     throw new Error('Missing property "eqn"');
 
@@ -254,15 +255,15 @@ const app = createApp({
                         throw new Error(`Value for ${k} must be number`);
                 }
 
-                if (typeof json.uel === 'number') {
+                if (typeof json.e12 === 'number') {
                     // fine.
-                } else if (Array.isArray(json.uel)) {
-                    if (json.uel.length != 2)
+                } else if (Array.isArray(json.e12)) {
+                    if (json.e12.length != 2)
                         throw new Error('UEL range must be two numbers');
-                    if (!(typeof json.uel[0] === 'number' && typeof json.uel[1] === 'number'))
-                        throw new Error('UEL range must be two numbers');
+                    if (!(typeof json.e12[0] === 'number' && typeof json.e12[1] === 'number'))
+                        throw new Error('E1/2 range must be two numbers');
                 } else {
-                    throw new Error('uel must be either number or array of two numbers (range)');
+                    throw new Error('e12 must be either number or array of two numbers (range)');
                 }
 
                 // mark as local
@@ -282,8 +283,8 @@ const app = createApp({
             // reset variables and status
             this.clear();
 
-            // only use active constraints
-            var uels = this.jsonl.filter(o => o.ignore == false);
+            // only use active ligand data
+            var lds = this.jsonl.filter(o => o.ignore == false);
 
             // single measurement: 
             // {"lig": "<name>", "eqn": {"<comp>": 1, "<comp>": 3, "uel": -3.05}}
@@ -302,17 +303,17 @@ const app = createApp({
 
             var cc = 1;
             var vc = 1;
-            for (const uel of uels) {
-                if (c2i.has(uel.lig))
-                    console.warn(`Duplicated constraint/ligand ${uel.lig}`);
+            for (const ld of lds) {
+                if (c2i.has(ld.lig))
+                    console.warn(`Duplicated constraint/ligand ${ld.lig}`);
 
                 // add constraint (ligand)
-                c2i.set(uel.lig, cc);
-                i2c.set(cc, uel.lig);
+                c2i.set(ld.lig, cc);
+                i2c.set(cc, ld.lig);
                 cc = cc + 1;
 
                 // add variables (components), if not present
-                for (const k of Object.keys(uel.eqn)) {
+                for (const k of Object.keys(ld.eqn)) {
                     if (v2i.has(k)) continue;
                     v2i.set(k, vc);
                     i2v.set(vc, k);
@@ -323,19 +324,19 @@ const app = createApp({
 
             GLPK().then(glpk => {
                 // build the constraints
-                const subjectTo = uels.flatMap((o, i) => {
+                const subjectTo = lds.flatMap((o, i) => {
                     let constr = Object.entries(o.eqn)
                                           .map(([k, v]) => { return {name: `var_${v2i.get(k)}`, coef: v}; });
-                    let uel = o.uel;
+                    let e12 = o.e12;
 
                     return [{
                         name: `constr_${i}_${c2i.get(o.lig)}_lo`,
                         vars: [constr, {name: 'err', coef: 1.0}].flat(),
-                        bnds: {type: glpk.GLP_LO, ub: 0.0, lb: Array.isArray(uel) ? Math.min(...uel) : uel}
+                        bnds: {type: glpk.GLP_LO, ub: 0.0, lb: Array.isArray(e12) ? Math.min(...e12) : e12}
                     }, {
                         name: `constr_${i}_${c2i.get(o.lig)}_up`,
                         vars: [constr, {name: 'err', coef: -1.0}].flat(),
-                        bnds: { type: glpk.GLP_UP, ub: Array.isArray(uel) ? Math.max(...uel) : uel, lb: 0.0}
+                        bnds: { type: glpk.GLP_UP, ub: Array.isArray(e12) ? Math.max(...e12) : e12, lb: 0.0}
                     }];
                 });
 
