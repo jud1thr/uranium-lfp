@@ -38,12 +38,10 @@
 {"lig": "[(Cp*)_2 U (N(SiMe_3)_2) (NCO)]", "eqn": {"Cp*": 2, "N(SiMe_3)_2": 1, "NCO": 1}, "e12": -2.06, "ignore": true}
 {"lig": "[(Cp*)_2 U (N(SiMe_3)_2) (N_3)]", "eqn": {"Cp*": 2, "N(SiMe_3)_2": 1, "N_3": 1}, "e12": -2.15}
 {"lig": "[(Cp*)_2 U (N(SiMe_3)_2) (F)]", "eqn": {"Cp*": 2, "N(SiMe_3)_2": 1, "F": 1}, "e12": -2.35}
-{"lig": "[(Cp*)_2 U (NPh_2) (C≡CPh)]", "eqn": {"Cp*": 2, "NPh_2": 1, "C≡CPh": 1}, "e12": -2.25, "ignore": true}
 {"lig": "[(Cp*)_2 U (SO_3CF_3) (η2(N,N')-CH_3NN=CPh_2)]", "eqn": {"Cp*": 2, "SO_3CF_3": 1, "η2(N,N')-CH_3NN=CPh_2": 1}, "e12": -2.01}
 {"lig": "[(Cp*)_2 U (Cl) (η2(N,N')-CH_3NN=CPh_2)]", "eqn": {"Cp*": 2, "Cl": 1, "η2(N,N')-CH_3NN=CPh_2": 1}, "e12": -2.29}
 {"lig": "[(Cp*)_2 U (η2(N,N')-CH_2PhNN=CPh_2)_2]", "eqn": {"Cp*": 2, "η2(N,N')-CH_2PhNN=CPh_2": 2}, "e12": -2.56}
 {"lig": "[(Cp*)_2 U (η2(N,N')-CH_3NN=CPh_2)_2]", "eqn": {"Cp*": 2, "η2(N,N')-CH_3NN=CPh_2": 2}, "e12": -2.78}
-{"lig": "[(C_5Me_4Et)_2 U (-N=C(CH_3)(-C_6H_4-C=N))_2]", "eqn": {"C_5Me_4Et": 2, "-N=C(CH_3)(-C_6H_4-C=N)": 2}, "e12": -2.31, "ignore": "inconsistent measurement"}
 {"lig": "[(Cp*)_2 U (–N=C(CH_2C_6H_5)(tpy))_2]", "eqn": {"Cp*": 2, "–N=C(CH_2C_6H_5)(tpy)": 2}, "e12": -2.42}
 {"lig": "[(Cp*)_2 U (–N=C(Ph)(Ph))_2]", "eqn": {"Cp*": 2, "–N=C(Ph)(Ph)": 2}, "e12": -2.51}
 {"lig": "[(Cp*)_2 U (–N=C(Ph)(CH_2Ph))_2]", "eqn": {"Cp*": 2, "–N=C(Ph)(CH_2Ph)": 2}, "e12": -2.57}
@@ -56,5 +54,3 @@
 {"lig": "[(Cp*)_2 U (–N=C(CH_3)(4-F-C_6H_4))_2]", "eqn": {"Cp*": 2, "–N=C(CH_3)(4-F-C_6H_4))_2": 2}, "e12": -2.64}
 {"lig": "[(Cp*)_2 U (–N=C(CH_3)(2,4,6-F_3-C_6H_2))_2]", "eqn": {"Cp*": 2, "–N=C(CH_3)(2,4,6-F_3-C_6H_2)": 2}, "e12": -2.80}
 {"lig": "[(Cp*)_2 U (–N=C(CH_3)(2,6-F_2-C_6H_3))_2]", "eqn": {"Cp*": 2, "–N=C(CH_3)(2,6-F_2-C_6H_3)": 2}, "e12": -2.82}
-{"lig": "[(Cp*)_2 U (=N–2,6-iPr_2–C_6H_3) (THF)]", "eqn": {"Cp*": 2, "=N–2,6-iPr_2–C_6H_3": 1, "THF": 1}, "e12": -2.40, "ignore": true}
-{"lig": "[(Cp*)_2 U (=N–2,4,6-tBu_3–C_6H_2) (THF)]", "eqn": {"Cp*": 2, "=N–2,4,6-tBu_3–C_6H_2": 1, "THF": 1}, "e12": -2.61, "ignore": true}
