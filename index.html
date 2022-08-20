@@ -4,6 +4,7 @@
 <head>
     <title></title>
     <meta content="">
+    <meta charset="utf-8"> 
     <link href="./dist/bootstrap.min.css" rel="stylesheet">
     <style>
         .ref + .ref:before {
@@ -23,11 +24,51 @@
     </script>
     <script src="./dist/es-module-shims.js"></script>
     <script type="text/javascript" async src="./dist/tex-mml-chtml.js"></script>
+
+    <style>
+        .chart .xAxis path,line {
+        stroke: #dddddd;
+        }
+
+        .chart .yAxis path,line {
+        stroke: #dddddd;
+        }
+
+        .chart circle {
+        fill: #aaaaaa;
+        }
+
+        .chart path.regressionLine {
+        stroke: #43A047;
+        fill: none;
+        stroke-width: 1.2;
+        stroke-dasharray: 3,5;
+        }
+
+        .chart circle {
+            cursor: pointer;
+        }
+
+        div.tooltip {
+         position: absolute;
+         text-align: left;
+         padding: .2rem;
+         background: #313639;
+         color: #f9f9f9;
+         border: 0px;
+         border-radius: 8px;
+         pointer-events: none;
+         font-size: .7rem;
+    }
+
+    </style>
 </head>
 
 <body>
 <script src="./dist/jquery-3.6.0.min.js"></script>
 <script src="./dist/bootstrap.bundle.min.js"></script>
+<script src="./dist/simple-statistics.min.js"></script>
+<script src="./dist/d3.min.js"></script>
 <main id="app" role="main" class="my-5">
 <div class="container">
     <h1>Global Optimization of Lever Parameters</h1>
@@ -105,17 +146,20 @@
 
     <ul v-if="res || cplex" class="nav nav-pills" id="myTab" role="tablist">
         <li class="nav-item" role="presentation">
-        <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">Variables</button>
+        <button class="nav-link active" id="variables-tab" data-bs-toggle="tab" data-bs-target="#variables-tab-pane" type="button" role="tab" aria-controls="variables-tab-pane" aria-selected="true">Variables</button>
         </li>
         <li class="nav-item" role="presentation">
-        <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-tab-pane" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">CPLEX</button>
+        <button class="nav-link" id="result-tab" data-bs-toggle="tab" data-bs-target="#cplex-tab-pane" type="button" role="tab" aria-controls="cplex-tab-pane" aria-selected="false">CPLEX</button>
         </li>
         <li class="nav-item" role="presentation">
-        <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact-tab-pane" type="button" role="tab" aria-controls="contact-tab-pane" aria-selected="false">Result</button>
+        <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#result-tab-pane" type="button" role="tab" aria-controls="result-tab-pane" aria-selected="false">Result</button>
+        </li>
+        <li class="nav-item" role="presentation">
+        <button class="nav-link" id="correlation-tab" data-bs-toggle="tab" data-bs-target="#correlation-tab-pane" type="button" role="tab" aria-controls="correlation-tab-pane" aria-selected="false">Correlation Analysis</button>
         </li>
     </ul>
-    <div v-if="res || cplex" class="tab-content" id="myTabContent">
-      <div v-if="res" class="tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
+    <div v-show="res || cplex" class="tab-content" id="myTabContent">
+      <div v-if="res" class="tab-pane fade show active" id="variables-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
         <div class="card card-body">
         <table class="table table-striped table-hover">
           <thead class="table-dark">
@@ -135,20 +179,28 @@
         </table>
         </div>
       </div>
-      <div v-if="cplex" class="tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
+      <div v-if="cplex" class="tab-pane fade" id="cplex-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
         <div class="card card-body">
           <pre>{{cplex}}</pre>
         </div>
       </div>
-      <div v-if="res" class="tab-pane fade" id="contact-tab-pane" role="tabpanel" aria-labelledby="contact-tab" tabindex="0">
+      <div v-if="res" class="tab-pane fade" id="result-tab-pane" role="tabpanel" aria-labelledby="contact-tab" tabindex="0">
           <div class="card card-body">
             <pre>{{res}}</pre>
           </div>
       </div>
+      <div v-show="regr" class="tab-pane fade" id="correlation-tab-pane" role="tabpanel" aria-labelledby="contact-tab" tabindex="0">
+          <div id="div-plot" class="card card-body">
+            <div class="alert alert-info">Note that for those ligands with a range of E1/2, the bound closer to the sum is used. Hover a point on the plot to see the ligand data.</div>
+            <p v-if="regr">R^2 = {{rsquared}}</p>
+            <p v-if="regr"><em>Pearson r</em> = {{corr}}</p>
+            <svg class="chart" id="plot"></svg>        
+          </div>
+      </div>
     </div>
-
 </div>
 </main>
+<div id="tooltip" class="tooltip" style="opacity: 0;"></div>
 
     
 <script type="module">
@@ -167,6 +219,8 @@ const app = createApp({
         res: null,
         cplex: null,
         error: null,
+        regr: null,
+        corr: null,
         input: '{}',
         input_error: null,
         solver_status: {
@@ -204,6 +258,8 @@ const app = createApp({
             this.res = null;   // solver result
             this.cplex = null; // optimization problem (cplex format)
             this.error = null;
+            this.regr = null;
+            this.corr = null;
         },
         copyInput(e) {
             var obj = {}
@@ -380,6 +436,11 @@ const app = createApp({
                           return {var: a, name: v, i: k, val: res.result.vars[a]};
                         });
 
+                        // write original cplex definition
+                        glpk.write(lp).then(res => {
+                          this.cplex = res;
+                        });
+
                         // compute the sum_uel values for any non-ignored
                         this.jsonl.forEach(o => {
                                 if (o.ignore) {
@@ -395,9 +456,115 @@ const app = createApp({
                                 o.sum = o.sum.toFixed(3);
                         });
 
-                        glpk.write(lp).then(res => {
-                          this.cplex = res;
-                        });
+                        // compute regression and r^2 for E1/2 and sum_uel
+                        let data = this.jsonl
+                            .filter(o => !o.ignore)
+                            .map(o => {
+                                // if there's multiple choices, use the closer one
+                                let y = o.e12;
+                                if (Array.isArray(o.e12)) {
+                                    if (Math.abs(o.e12[0] - o.sum) < Math.abs(o.e12[1] - o.sum))
+                                        y = o.e12[0];
+                                    else
+                                        y = o.e12[1];
+                                }
+
+                                return {
+                                    x: +o.sum, 
+                                    y: y, 
+                                    lig: o.lig,
+                                    e12: o.e12,
+                                    sum: o.sum,
+                                    err: Math.abs(o.sum - y)
+                                };
+                            });
+
+                        // compute correlation (pearson)
+                        this.corr = ss.sampleCorrelation(data.map(d => d.x), data.map(d => d.y));
+
+                        // compute linear regression, rsquare
+                        this.regr = ss.linearRegression(data.map(d => [d.x, d.y]))
+                        this.regrln = ss.linearRegressionLine(this.regr);
+                        this.rsquared = ss.rSquared(data.map(d => [d.x, d.y]), this.regrln);
+
+                        // plot...
+                        const width = 800;
+                        const height = 800;
+                        const margin = ({ top: 20, right: 20, bottom: 20, left: 50 });
+                        const xScale = d3.scaleLinear()
+                           .domain([-3.0, -1.2])
+                           .range([margin.left, width - margin.right]);
+                        const yScale = d3.scaleLinear()
+                           .domain([-3.0, -1.2])
+                           .range([height - margin.bottom, margin.top]);
+                        const xAxis = g => g.attr('transform', `translate(0, ${height - margin.bottom})`)
+                          .attr("class", "xAxis")
+                          .call(d3.axisBottom(xScale));
+                        const yAxis = g => g.attr('transform', `translate(${margin.left}, 0)`)
+                          .attr("class", "yAxis")
+                          .call(d3.axisLeft(yScale));
+
+                        // point for line, use (-3, -3) and (-1, -1) as in domain/range
+                        const regressionPoints = [
+                            {x: -3.0, y: this.regrln(-3.0)},
+                            {x: -1.2, y: this.regrln(-1.2)}
+                        ];
+
+                        const line = d3.line()
+                            .x(d => xScale(d.x))
+                            .y(d => yScale(d.y));
+
+                        const renderChart = (target) => {
+                            var div = d3.select("#tooltip");
+
+                            // First, let's make the scatterplot
+                            target.selectAll('circle')
+                                  .data(data)
+                                .enter().append('circle')
+                                  .attr('r', 4)
+                                  .attr('cx', d => xScale(d.x))
+                                  .attr('cy', d => yScale(d.y))
+                                  .on('mouseover', function (event, d) {
+                                    d3.select(this).transition()
+                                          //.duration('100')
+                                          .attr("r", 7);
+
+                                    div.html(`<table><tr><td>Ligand</td><td>${d.lig}</td><tr><td>E1/2</td><td>${d.e12}</td></tr><tr><td>sum_uel</td><td>${d.sum}</td></tr><tr><td>err</td><td>${d.err.toFixed(3)}</td></tr></table>`)
+                                       .style("left", (event.pageX + 10) + "px")
+                                       .style("top", (event.pageY - 15) + "px")
+                                       .style("opacity", 1);
+                                  })
+                                  .on('mouseout', function (event, d) {
+                                    d3.select(this).transition()
+                                      //.duration('200')
+                                      .attr("r", 4);
+                                    div.transition()
+                                      //.duration('200')
+                                      .style("opacity", 0);
+                                  });
+                                  
+                            // Next, we'll draw the regression line
+                            target.append('path')
+                                .classed('regressionLine', true)
+                                .datum(regressionPoints)
+                                .attr('d', line);
+                                  
+                            // Lastly, we add the axes!
+                            target.append('g')
+                                .call(xAxis);
+                            target.append('g')
+                                .call(yAxis);
+                        };
+
+                        const svg = d3.select('#plot')
+                            .attr('width', width)
+                            .attr('height', height);
+                        
+                        console.log(svg);
+                        console.log(data);
+
+                        renderChart(svg, data);
+                        // return svg.node();
                       })
                       .catch(err => {
                         this.error = err;
