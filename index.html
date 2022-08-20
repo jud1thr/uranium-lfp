@@ -240,6 +240,7 @@ const app = createApp({
                 .then(resp => resp.text())
                 .then(text => {
                     this.jsonl = text.split(/\n/)
+                                        .filter(s => s.length > 2)
                                         .map(JSON.parse)
                                         .filter(o => o.hasOwnProperty('lig'))
                                         .map(o => {
