@@ -43,15 +43,15 @@ var ll;	# -N=C(Ph)(CH2Ph)
 var mm;	# -N=C(Ph)(CH3)
 var nn;	# -N=C(CH3)(C6F5)
 var oo;	# -N=C(CH3)(3,5-F2-C6H3)
-var pp;	# –N=C(CH3)(3,4,5-F3-C6H2)
-var qq;	# –N=C(CH3)(3-F-C6H4)
-var rr;	# –N=C(CH3)(2-F-C6H4)
-var ss;	# –N=C(CH3)(4-F-C6H4)
-var tt;	# –N=C(CH3)(2,4,6-F3-C6H2)
-var uu;	# –N=C(CH3)(2,6-F2-C6H3)
-# var vv;	# =N–2,6-iPr2–C6H3
+var pp;	# -N=C(CH3)(3,4,5-F3-C6H2)
+var qq;	# -N=C(CH3)(3-F-C6H4)
+var rr;	# -N=C(CH3)(2-F-C6H4)
+var ss;	# -N=C(CH3)(4-F-C6H4)
+var tt;	# -N=C(CH3)(2,4,6-F3-C6H2)
+var uu;	# -N=C(CH3)(2,6-F2-C6H3)
+# var vv;	# =N-2,6-iPr2-C6H3
 # var ww;	# THF
-# var xx;	# =N–2,4,6-tBu3–C6H2
+# var xx;	# =N-2,4,6-tBu3-C6H2
 
 
 # this is the added error term to make the infeasible system of linear equations
@@ -244,15 +244,15 @@ printf "%s\t%g\n", "-N=C(Ph)(CH2Ph)", ll;
 printf "%s\t%g\n", "-N=C(Ph)(CH3)", mm;
 printf "%s\t%g\n", "-N=C(CH3)(C6F5)", nn;
 printf "%s\t%g\n", "-N=C(CH3)(3,5-F2-C6H3)", oo;
-printf "%s\t%g\n", "–N=C(CH3)(3,4,5-F3-C6H2)", pp;
-printf "%s\t%g\n", "–N=C(CH3)(3-F-C6H4)", qq;
-printf "%s\t%g\n", "–N=C(CH3)(2-F-C6H4)", rr;
-printf "%s\t%g\n", "–N=C(CH3)(4-F-C6H4)", ss;
-printf "%s\t%g\n", "–N=C(CH3)(2,4,6-F3-C6H2)", tt;
-printf "%s\t%g\n", "–N=C(CH3)(2,6-F2-C6H3)", uu;
-# printf "%s\t%g\n", "=N–2,6-iPr2–C6H3", vv;
+printf "%s\t%g\n", "-N=C(CH3)(3,4,5-F3-C6H2)", pp;
+printf "%s\t%g\n", "-N=C(CH3)(3-F-C6H4)", qq;
+printf "%s\t%g\n", "-N=C(CH3)(2-F-C6H4)", rr;
+printf "%s\t%g\n", "-N=C(CH3)(4-F-C6H4)", ss;
+printf "%s\t%g\n", "-N=C(CH3)(2,4,6-F3-C6H2)", tt;
+printf "%s\t%g\n", "-N=C(CH3)(2,6-F2-C6H3)", uu;
+# printf "%s\t%g\n", "=N-2,6-iPr2-C6H3", vv;
 # printf "%s\t%g\n", "THF", ww;
-# printf "%s\t%g\n", "=N–2,4,6-tBu3–C6H2", xx;
+# printf "%s\t%g\n", "=N-2,4,6-tBu3-C6H2", xx;
 
 printf "%s\t%g\n", 'maxError', maxError;
 

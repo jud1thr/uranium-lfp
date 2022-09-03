@@ -163,12 +163,12 @@ n2(N,N')-CH2PhNN=CPh2	-0.62125
 -N=C(Ph)(CH3)	-0.68125
 -N=C(CH3)(C6F5)	-0.51125
 -N=C(CH3)(3,5-F2-C6H3)	-0.57125
-–N=C(CH3)(3,4,5-F3-C6H2)	-0.58125
-–N=C(CH3)(3-F-C6H4)	-0.61125
-–N=C(CH3)(2-F-C6H4)	-0.65125
-–N=C(CH3)(4-F-C6H4)	-0.66125
-–N=C(CH3)(2,4,6-F3-C6H2)	-0.74125
-–N=C(CH3)(2,6-F2-C6H3)	-0.75125
+-N=C(CH3)(3,4,5-F3-C6H2)	-0.58125
+-N=C(CH3)(3-F-C6H4)	-0.61125
+-N=C(CH3)(2-F-C6H4)	-0.65125
+-N=C(CH3)(4-F-C6H4)	-0.66125
+-N=C(CH3)(2,4,6-F3-C6H2)	-0.74125
+-N=C(CH3)(2,6-F2-C6H3)	-0.75125
 maxError	0.025
 Model has been successfully processed
 Writing basic solution to 'uel-lp-alt.sol'...
