@@ -1,0 +1,84 @@
+# least squares approach using Moore-Penrose pseudi-inverse
+% toy problem with multiple measurements (uel-si-lp2)
+
+% without error variable
+
+A = [4 0 0 0; 3 1 0 0; 3 1 0 0; 2 0 2 0; 0 0 2 2; 0 2 0 2 ]
+b = [-1.94 -1.88 -1.80 -1.62 -1.83 -1.85]'
+
+% A x = b
+% A' A x = A' b       # multiply with transpose to make matrix square
+% x = (A' A)^-1 A' b  # use pseudo inverse (eg. Moore-Penrose/SVD) for least squares
+
+x = pinv(A' * A) * A' * b
+
+% x =
+%
+%   -0.4892  % Cp
+%   -0.3558  % Cl
+%   -0.3292  % BH4
+%   -0.5775  % Cp*
+
+% compute residuum (per-equation)
+
+r = A * x - b
+
+% r =
+%
+%   -0.016667
+%    0.056667  % large residuum on conflicting equations
+%   -0.023333
+%   -0.016667
+%    0.016667
+%   -0.016667
+
+
+% now including an error variable (last column); b remains the same
+e = 1/6  % distribute error equally over equations
+A = [4 0 0 0 e; 3 1 0 0 e; 3 1 0 0 e; 2 0 2 0 e; 0 0 2 2 e; 0 2 0 2 e]
+
+x = pinv(A' * A) * A' * b
+
+% x =
+%
+%   -0.486147  % Cp
+%   -0.352813  % Cl
+%   -0.326147  % BH4
+%   -0.574480  % Cp*
+%   -0.072483  % error
+
+r = A * x - b
+
+% r =
+%
+%   -0.016667
+%    0.056667  % still large residuum on conflicting measurements
+%   -0.023333
+%   -0.016667
+%    0.016667
+%   -0.016667
+
+
+% to demonstrate the issue with this numeric approach, set an unscaled error 1
+e = 1
+A = [4 0 0 0 e; 3 1 0 0 e; 3 1 0 0 e; 2 0 2 0 e; 0 0 2 2 e; 0 2 0 2 e]
+x = pinv(A' * A) * A' * b
+
+% x =
+%
+%   -0.4016
+%   -0.2683
+%   -0.2416
+%   -0.4899
+%   -0.3503  % !! huge error !!
+
+r = A * x - b
+
+% r =
+%
+%   -0.016667
+%    0.056667  % ...but same residuum
+%   -0.023333
+%   -0.016667
+%    0.016667
+%   -0.016667
