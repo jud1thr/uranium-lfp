@@ -38,10 +38,10 @@
 {"lig": "[(Cp$^*$)2U(N(SiMe3)2)(NCO)]", "eqn": {"Cp$^*$": 2, "N(SiMe3)2": 1, "NCO": 1}, "e12": -2.06, "ignore": true}
 {"lig": "[(Cp$^*$)2U(N(SiMe3)2)(N3)]", "eqn": {"Cp$^*$": 2, "N(SiMe3)2": 1, "N3": 1}, "e12": -2.15}
 {"lig": "[(Cp$^*$)2U(N(SiMe3)2)(F)]", "eqn": {"Cp$^*$": 2, "N(SiMe3)2": 1, "F": 1}, "e12": -2.35}
-{"lig": "[(Cp$^*$)2U(SO3CF3)((\text{N,N}{'})(Me)N2(CPh2))]", "eqn": {"Cp$^*$": 2, "SO3CF3": 1, "(\text{N,N}{'})(Me)N2(CPh2)": 1}, "e12": -2.01}
-{"lig": "[(Cp$^*$)2U(Cl)((\text{N,N}{'})(Me)N2(CPh2))]", "eqn": {"Cp$^*$": 2, "Cl": 1, "(\text{N,N}{'})(Me)N2(CPh2)": 1}, "e12": -2.29}
-{"lig": "[(Cp$^*$)2U((\text{N,N}{'})(CH2Ph)N2(CPh2))2]", "eqn": {"Cp$^*$": 2, "(\text{N,N}{'})(CH2Ph)N2(CPh2)": 2}, "e12": -2.56}
-{"lig": "[(Cp$^*$)2U((\text{N,N}{'})(Me)N2(CPh2))2]", "eqn": {"Cp$^*$": 2, "(\text{N,N}{'})(Me)N2(CPh2)": 2}, "e12": -2.78}
+{"lig": "[(Cp$^*$)2U(SO3CF3)((N,N')(Me)N2(CPh2))]", "eqn": {"Cp$^*$": 2, "SO3CF3": 1, "(N,N')(Me)N2(CPh2)": 1}, "e12": -2.01}
+{"lig": "[(Cp$^*$)2U(Cl)((N,N')(Me)N2(CPh2))]", "eqn": {"Cp$^*$": 2, "Cl": 1, "(N,N')(Me)N2(CPh2)": 1}, "e12": -2.29}
+{"lig": "[(Cp$^*$)2U((N,N')(CH2Ph)N2(CPh2))2]", "eqn": {"Cp$^*$": 2, "(N,N')(CH2Ph)N2(CPh2)": 2}, "e12": -2.56}
+{"lig": "[(Cp$^*$)2U((N,N')(Me)N2(CPh2))2]", "eqn": {"Cp$^*$": 2, "(N,N')(Me)N2(CPh2)": 2}, "e12": -2.78}
 {"lig": "[(Cp$^*$)2U(NC(CH2Ph)(tpy))2]", "eqn": {"Cp$^*$": 2, "NC(CH2Ph)(tpy)": 2}, "e12": -2.42}
 {"lig": "[(Cp$^*$)2U(NC(Ph)2)2]", "eqn": {"Cp$^*$": 2, "NC(Ph)2": 2}, "e12": -2.51}
 {"lig": "[(Cp$^*$)2U(NC(Ph)(CH2Ph))2]", "eqn": {"Cp$^*$": 2, "NC(Ph)(CH2Ph)": 2}, "e12": -2.57}
