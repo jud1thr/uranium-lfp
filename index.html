@@ -7,6 +7,7 @@
     <meta charset="utf-8"> 
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="./dist/bootstrap.min.css" rel="stylesheet">
+    
     <style>
         .ref + .ref:before {
           content: ", ";
@@ -28,13 +29,15 @@
 
     <script>
         MathJax = {
+          loader: {load: ['[tex]/mhchem']},
           tex: {
+            packages: {'[+]': ['mhchem']},
             inlineMath: [['\\(', '\\)'], ['$', '$']]
           }
         };
     </script>
-    <script src="./dist/tex-svg.min.js"></script>
-    <!--<script src="./dist/tex-mml-chtml.min.js"></script>-->
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+    <!--<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>-->
     
 
     <style>
