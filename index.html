@@ -5,6 +5,7 @@
     <title></title>
     <meta content="">
     <meta charset="utf-8"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="./dist/bootstrap.min.css" rel="stylesheet">
     <style>
         .ref + .ref:before {
@@ -18,12 +19,23 @@
       {
         "imports": {
           "vue": "./dist/vue.esm-browser.js",
+          "mathjax-vue3": "./dist/mathjax-vue3.es.js",
           "glpk": "./dist/glpk.js"
         }
       }
     </script>
     <script src="./dist/es-module-shims.js"></script>
-    <script type="text/javascript" async src="./dist/tex-mml-chtml.js"></script>
+
+    <script>
+        MathJax = {
+          tex: {
+            inlineMath: [['\\(', '\\)'], ['$', '$']]
+          }
+        };
+    </script>
+    <script src="./dist/tex-svg.min.js"></script>
+    <!--<script src="./dist/tex-mml-chtml.min.js"></script>-->
+    
 
     <style>
         .chart .xAxis path,line {
@@ -70,7 +82,7 @@
 <script src="./dist/simple-statistics.min.js"></script>
 <script src="./dist/d3.min.js"></script>
 <main id="app" role="main" class="my-5">
-<div class="container">
+<div class="container" id="app-container">
     <h1>Global Optimization of Lever Parameters</h1>
     <h2 id="ligand-data">Available Ligand Data <em><a href="#optimization">(&rarr; LP Optimization)</a></em></h2>
     
@@ -83,21 +95,23 @@
           <th scope="col">Components</th>
           <th scope="col">measured E1/2</th>
           <th v-if="res" scope="col">sum UEL</th>
-          <th scope="col">Refs</th>
+          <!-- <th scope="col">Refs</th> -->
           <th scope="col">Ignore</th>
         </tr>
       </thead>
       <tbody>
         <tr v-for="(l, i) in jsonl">
             <th scope="row" style="cursor: pointer" @click="copyInput(l)">{{i+1}}</th>
-            <td>{{l.lig}} <span v-if="l.local" class="badge bg-secondary">local</span></td>
-            <td><span class="comp" v-for="(n, c) in l.eqn">{{n}} * {{c}}</span></td>
+            <td><math-jax :latex="'\\ce{'+l.lig+'}'"></math-jax> <span v-if="l.local" class="badge bg-secondary">local</span></td>
+            <td><span class="comp" v-for="(n, c) in l.eqn"><math-jax :latex="n+'\\cdot\\ce{'+c+'}'"></math-jax></span></td>
             <td>{{l.e12}}</td>
             <td v-if="res">{{l.sum || ''}}</td>
+            <!--
             <td>
                 <span class="ref" v-if="Array.isArray(l.doi)" v-for="(d,j) in l.doi"><a v-bind:href="'https://doi.org/'+d">{{j+1}}</a> </span>
                 <span v-else-if="l.doi"><a v-bind:href="'https://doi.org/'+l.doi">{{1}}</a> </span>
             </td>
+            -->
             <td>
             <div class="form-check">
               <input class="form-check-input" type="checkbox" v-model="l.ignore" alue="" id="flexCheckDefault">
@@ -111,8 +125,8 @@
       <div class="card-body">
         <p>You can temporarily add new ligands to the table, to play around with the LP. At this point, you need to write those in JSON; see the two templates (with single and range UEL) below.</p>
 <pre>
-{"lig": "name", "doi": "(optional)", "eqn": {"Cp": 3, "SPh": 1}, "e12": -1.90}
-{"lig": "name", "eqn": {"Cp": 3, "BH_4": 1}, "e12": [-2.0, -1.90]}
+{"lig": "[(tmp)2U(BH4)2]", "eqn": {"tmp": 2, "BH4": 2}, "e12": -1.50}
+{"lig": "[(Cp)3U(BH4)]", "eqn": {"Cp": 3, "BH4": 1}, "e12": [-2.0, -1.88]}
 </pre>
         <div class="mb-3">
             <label for="formGroupExampleInput" class="form-label">Enter ligand data in JSON</label>
@@ -172,7 +186,8 @@
           <tbody>
             <tr v-if="res" v-for="u in uels">
                 <th scope="row">{{u.var}}</th>
-                <td>{{u.name}}</td>
+                <!--<td>{{u.name}}</td>-->
+                <td><math-jax :latex="'\\ce{'+u.name+'}'"></math-jax></td>
                 <td>{{u.val}}</td>
             </tr>
           </tbody>
@@ -206,6 +221,13 @@
 <script type="module">
 import { createApp } from 'vue';
 import GLPK from 'glpk';
+
+import MathJax, { initMathJax, renderByMathjax } from 'mathjax-vue3'
+function onMathJaxReady() {
+  const el = document.getElementById('app-container')
+  renderByMathjax(el)
+}
+
 
 // vue app
 const app = createApp({
@@ -574,9 +596,7 @@ const app = createApp({
             });
         }
     }
-});
-
-app.mount('#app');
+}).use(MathJax).mount('#app');
 </script>
 </body>
 
