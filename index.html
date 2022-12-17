@@ -9,6 +9,9 @@
     <link href="./dist/bootstrap.min.css" rel="stylesheet">
     
     <style>
+        h2 {
+            margin-top: 24pt;
+        }
         .ref + .ref:before {
           content: ", ";
         }
@@ -86,18 +89,44 @@
 <script src="./dist/d3.min.js"></script>
 <main id="app" role="main" class="my-5">
 <div class="container" id="app-container">
-    <h1>Global Optimization of Lever Parameters</h1>
-    <h2 id="ligand-data">Available Ligand Data <em><a href="#optimization">(&rarr; LP Optimization)</a></em></h2>
+    <h1>Global Optimization of Uranium Ligand Field Parameters</h1> 
+    <h3 style="font-style: italic">A global optimization based on Lever parameters</h3> 
+
+    <p>This website accompanies the paper &laquo;Non-Aqueous Electrochemistry of Uranium Complexes &mdash; A Guide to Structure-Reactivity Tuning&raquo; (<em>submitted to Chem. Rev. in Dec. 2022</em>).
+    In the following sections, you can modify the set of ligand measurements to be included in the global optimization of the Lever parameters to study the effect of individual measurements. The source of this website is hosted on GitHub: <a target="_blank" href="https://github.com/jud1thr/uranium-lfp">jud1thr/uranium-lfp</a>.</p>
+
+    <p>The process works as follows:</p>
+    <ol>
+        <li>Make a selection of ligand data in the <a href="#ligand-data">table below</a> by ticking the <em>ignore</em> field to exclude certain rows.</li>
+        <li><em>Optionally:</em> Add new ligand data using the form at the <a href="#add-new-data">bottom of the table</a>.</li>
+        <li>Run the <a href="#optimization">global optimization</a>. Once finished (it should only take a moment), you will get an indication of the optimization result (typically &laquo;solution is optimal&raquo;), and a few tabs with results appear:
+            <ul>
+                <li><b>Variables</b> holds the optimized value for each component; <em>err</em> denotes the overall error (cf. paper).</li>
+                <li><b>CPLEX</b> shows the optimization program in CPLEX format, in case you need it for an external solver.</li>
+                <li><b>Result</b> shows the detailed optimization result by the glpsol solver; this can provide some insight to the numerical constraints</li>
+                <li><b>Correlation Analysis</b> provides \(R^2\) and (Pearson's) \(r\) values, as well as a fit plot (hover a point to see the ligand data).</li>
+            </ul>
+        You will also notice that the <a href="#ligand-data">ligand table</a> now has a column \(\sum ~^UE_L\) that displays the computed value (opposed to the measured \(E_{1/2} (U^{IV/III})\)).
+        </li>
+    </ol>
+
+    <p>Feel free to reach out to <a href="mailto:judith.riedhammer@fau.de">judith.riedhammer@fau.de</a> if you have any questions!</p>
+
+    <div class="alert alert-info" role="info">
+        <p>This website makes heavy use of Javascript (e.g. <a href="https://vuejs.org">vue</a>, <a href="https://www.mathjax.org">MathJax</a>, <a href="https://github.com/jvail/glpk.js/">glpk.js</a>) and cutting-edge browser features (html5, es6, svg). Please use a current version of Safari, Chrome, Firefox or Edge and disable any Javascript blocker.</p>
+    </div>
+
+    <h2 id="ligand-data">Select ligand data to include in the optimization <em><a href="#optimization">(&rarr; optimization)</a></em></h2>
     
     <table class="table table-striped table-hover">
-      <caption>Please contact the authors to have your data included, or make a pull request right here on GitHub.</caption>
+      <caption>Please contact the authors to have your data included, or make a <a href="https://github.com/jud1thr/uranium-lfp/pulls">pull request right here on GitHub.</a></caption>
       <thead class="table-dark">
         <tr>
           <th scope="col">#</th>
           <th scope="col">Ligand</th>
           <th scope="col">Components</th>
-          <th scope="col">measured E1/2</th>
-          <th v-if="res" scope="col">sum UEL</th>
+          <th scope="col">\(E_{1/2} (U^{IV/III})\)</th>
+          <th v-if="res" scope="col"><math-jax :latex="'\\sum ~^UE_L'"></math-jax></th>
           <!-- <th scope="col">Refs</th> -->
           <th scope="col">Ignore</th>
         </tr>
@@ -124,16 +153,23 @@
       </tbody>
     </table>
 
-    <div class="card" ref="add-ligand-data">
+    <div class="card" ref="add-ligand-data" id="add-new-data">
       <div class="card-body">
-        <p>You can temporarily add new ligands to the table, to play around with the LP. At this point, you need to write those in JSON; see the two templates (with single and range UEL) below.</p>
+        <p>You can (temporarily) add new ligands to the table, to play around with the optimization problem. You need to write those in JSON format; see the two templates (with single and range \(E_{1/2}\)) below. </p>
+        <p>Hints:
+            <ul>
+                <li>You can also click on a line number in the table above to copy the respective values into the field below.</li>
+                <li>You can use LaTeX/mhchem notation for better readibility (cf. existing ligand data).</li>
+                <li><b>Double-check</b> the equation components to make sure to spell existing components right!</li>
+            </ul>
+        </p>
 <pre>
 {"lig": "[(tmp)2U(BH4)2]", "eqn": {"tmp": 2, "BH4": 2}, "e12": -1.50}
 {"lig": "[(Cp)3U(BH4)]", "eqn": {"Cp": 3, "BH4": 1}, "e12": [-2.0, -1.88]}
 </pre>
         <div class="mb-3">
             <label for="formGroupExampleInput" class="form-label">Enter ligand data in JSON</label>
-            <input type="text" v-model="input" class="form-control" id="formGroupExampleInput" placeholder="Example input placeholder">
+            <input style="font-family: monospace" type="text" v-model="input" class="form-control" id="formGroupExampleInput" placeholder="Example input placeholder">
         </div>
         <div class="mb-3">
             <button @click="checkInput" class="btn btn-primary">Verify &amp; Add</button>
@@ -144,7 +180,7 @@
 </div>
 
 <div class="container">
-    <h2 id="optimization">Linear Program</h2>
+    <h2 id="optimization">Global Optimization</h2>
     
     <div class="card">
         <div class="card-body">
@@ -159,6 +195,16 @@
 
     <div v-if="error" class="alert alert-danger" role="alert">
         {{error}}
+    </div>
+
+    <div v-show="res">
+        <p>Use the tabs below to learn about the optimization results.</p>
+        <ul>
+                <li><b>Variables</b> holds the optimized value for each component; <em>err</em> denotes the overall error (cf. paper).</li>
+                <li><b>CPLEX</b> shows the optimization program in CPLEX format, in case you need it for an external solver.</li>
+                <li><b>Result</b> shows the detailed optimization result by the glpsol solver; this can provide some insight to the numerical constraints</li>
+                <li><b>Correlation Analysis</b> provides \(R^2\) and (Pearson's) \(r\) values, as well as a fit plot (hover a point to see the ligand data).</li>
+            </ul>
     </div>
 
     <ul v-if="res || cplex" class="nav nav-pills" id="myTab" role="tablist">
