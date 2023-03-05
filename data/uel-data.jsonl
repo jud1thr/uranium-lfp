@@ -54,3 +54,6 @@
 {"lig": "[(Cp$^*$)2U(NC(Me)(4-F-C6H4))2]", "eqn": {"Cp$^*$": 2, "NC(Me)(4-F-C6H4)": 2}, "e12": -2.64}
 {"lig": "[(Cp$^*$)2U(NC(Me)(2,4,6-F3-C6H2))2]", "eqn": {"Cp$^*$": 2, "NC(Me)(2,4,6-F3-C6H2)": 2}, "e12": -2.80}
 {"lig": "[(Cp$^*$)2U(NC(Me)(2,6-F2-C6H3))2]", "eqn": {"Cp$^*$": 2, "NC(Me)(2,6-F2-C6H3)": 2}, "e12": -2.82}
+{"lig": "[tBu-ac-H-ac]", "eqn": {"tBu-ac-H-ac": 4}, "e12": -2.67}
+{"lig": "[tBu-ac-Me-ac]", "eqn": {"tBu-ac-Me-ac": 4}, "e12": -2.79}
+{"lig": "[tBu-ac-Ph-ac]", "eqn": {"tBu-ac-Ph-ac": 4}, "e12": -2.58}

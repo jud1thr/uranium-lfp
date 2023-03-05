@@ -1,7 +1,7 @@
 Problem:    uel
-Rows:       107
-Columns:    43
-Non-zeros:  333
+Rows:       113
+Columns:    46
+Non-zeros:  345
 Status:     OPTIMAL
 Objective:  maxOfAllErrors = 0.025 (MINimum)
 
@@ -57,8 +57,8 @@ Objective:  maxOfAllErrors = 0.025 (MINimum)
     46 Eq29_up      NU         -1.95                       -1.95         < eps
     47 Eq31_down    NL         -1.41         -1.41                       < eps
     48 Eq31_up      B          -1.46                       -1.41 
-    49 Eq33_down    B          -1.55         -1.57               
-    50 Eq33_up      B           -1.6                       -1.57 
+    49 Eq33_down    B          -1.52         -1.57               
+    50 Eq33_up      NU         -1.57                       -1.57         < eps
     51 Eq34_down    B          -1.69          -1.7               
     52 Eq34_up      B          -1.74                        -1.7 
     53 Eq35_down    NL         -1.81         -1.81                       < eps
@@ -75,8 +75,8 @@ Objective:  maxOfAllErrors = 0.025 (MINimum)
     64 Eq41_up      NU         -2.54                       -2.54         < eps
     65 Eq42_down    B          -2.28         -2.33               
     66 Eq42_up      NU         -2.33                       -2.33         < eps
-    67 Eq43_down    NL         -1.97         -1.97                       < eps
-    68 Eq43_up      B          -2.02                       -1.97 
+    67 Eq43_down    B         -1.955         -1.97               
+    68 Eq43_up      B         -2.005                       -1.97 
     69 Eq44_down    NL         -2.04         -2.04                       < eps
     70 Eq44_up      B          -2.09                       -2.04 
     71 Eq46_down    B           -2.1         -2.15               
@@ -115,7 +115,13 @@ Objective:  maxOfAllErrors = 0.025 (MINimum)
    104 Eq64_up      NU          -2.8                        -2.8         < eps
    105 Eq65_down    B          -2.77         -2.82               
    106 Eq65_up      NU         -2.82                       -2.82         < eps
-   107 maxOfAllErrors
+   107 Eq68_down    B          -2.62         -2.67               
+   108 Eq68_up      NU         -2.67                       -2.67         < eps
+   109 Eq69_down    B          -2.74         -2.79               
+   110 Eq69_up      NU         -2.79                       -2.79         < eps
+   111 Eq70_down    B          -2.53         -2.58               
+   112 Eq70_up      NU         -2.58                       -2.58         < eps
+   113 maxOfAllErrors
                     B          0.025                             
 
    No. Column name  St   Activity     Lower bound   Upper bound    Marginal
@@ -139,7 +145,7 @@ Objective:  maxOfAllErrors = 0.025 (MINimum)
     17 q            B       -0.31625                             
     18 r            B       -0.59125                             
     19 s            B       -0.12625                             
-    20 t            B       -0.19625                             
+    20 t            B       -0.18125                             
     21 u            B       -0.32625                             
     22 w            B       -0.52625                             
     23 x            B       -0.76625                             
@@ -162,24 +168,27 @@ Objective:  maxOfAllErrors = 0.025 (MINimum)
     40 ss           B       -0.66125                             
     41 tt           B       -0.74125                             
     42 uu           B       -0.75125                             
-    43 maxError     B          0.025                             
+    43 neu1         B       -0.66125                             
+    44 neu2         B       -0.69125                             
+    45 neu3         B       -0.63875                             
+    46 maxError     B          0.025                             
 
 Karush-Kuhn-Tucker optimality conditions:
 
-KKT.PE: max.abs.err = 3.11e-15 on row 5
-        max.rel.err = 6.46e-16 on row 5
+KKT.PE: max.abs.err = 1.33e-15 on row 26
+        max.rel.err = 2.31e-16 on row 26
         High quality
 
 KKT.PB: max.abs.err = 0.00e+00 on row 0
         max.rel.err = 0.00e+00 on row 0
         High quality
 
-KKT.DE: max.abs.err = 2.00e-15 on column 1
-        max.rel.err = 1.50e-15 on column 14
+KKT.DE: max.abs.err = 2.78e-15 on column 1
+        max.rel.err = 1.11e-15 on column 1
         High quality
 
-KKT.DB: max.abs.err = 4.44e-16 on row 67
-        max.rel.err = 4.44e-16 on row 67
+KKT.DB: max.abs.err = 3.33e-16 on row 38
+        max.rel.err = 3.33e-16 on row 38
         High quality
 
 End of output

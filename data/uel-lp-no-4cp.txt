@@ -53,6 +53,10 @@ var uu;	# -N=C(CH3)(2,6-F2-C6H3)
 # var ww;	# THF
 # var xx;	# =N-2,4,6-tBu3-C6H2
 
+var neu1;	# tBu-ac-H-ac
+var neu2;	# tBu-ac-Me-ac
+var neu3;	# tBu-ac-Ph-ac
+
 
 # this is the added error term to make the infeasible system of linear equations
 # a feasible set of inequations
@@ -196,6 +200,13 @@ s.t. Eq65_up: 2 * i + 2 * uu<= -2.82 +maxError;
 #s.t. Eq67_down: 2 * i + ww + xx >= -2.61 -maxError;
 #s.t. Eq67_up: 2 * i + ww + xx<= -2.61 +maxError;
 
+s.t. Eq68_down: 4 * neu1 >= -2.67 -maxError;
+s.t. Eq68_up: 4 * neu1 <= -2.67 +maxError;
+s.t. Eq69_down: 4 * neu2 >= -2.79 -maxError;
+s.t. Eq69_up: 4 * neu2 <= -2.79 +maxError;
+s.t. Eq70_down: 4 * neu3 >= -2.58 -maxError;
+s.t. Eq70_up: 4 * neu3 <= -2.58 +maxError;
+
 
 # actual job to do...
 minimize maxOfAllErrors: maxError;
@@ -253,6 +264,10 @@ printf "%s\t%g\n", "-N=C(CH3)(2,6-F2-C6H3)", uu;
 # printf "%s\t%g\n", "=N-2,6-iPr2-C6H3", vv;
 # printf "%s\t%g\n", "THF", ww;
 # printf "%s\t%g\n", "=N-2,4,6-tBu3-C6H2", xx;
+
+printf "%s\t%g\n", "tBu-ac-H-ac", neu1;
+printf "%s\t%g\n", "tBu-ac-Me-ac", neu2;
+printf "%s\t%g\n", "tBu-ac-Ph-ac", neu3;
 
 printf "%s\t%g\n", 'maxError', maxError;
 
