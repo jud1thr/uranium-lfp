@@ -58,12 +58,13 @@ var neu2;	# tBu-ac-Me-ac
 var neu3;	# tBu-ac-Ph-ac
 
 
-# this is the added error term to make the infeasible system of linear equations
-# a feasible set of inequations
+# this is the added error term to make the infeasible system of
+# linear equations a feasible set of inequations
 var maxError;
 
 
-# for multiple measurements use max on the upper, min on the lower bound
+# for multiple measurements use max on the upper, min on the 
+# lower bound
 s.t. Eq1_2_3_down: 3 * a + b >= -1.88 - maxError;
 s.t. Eq1_2_3_up: 3 * a + b <= -1.80 + maxError;
 
